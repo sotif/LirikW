@@ -20,6 +20,14 @@
       align-items: center;
       justify-content: center;
       height: 450px;
+
+      >h1 {
+        font-size: $xl-size;
+       margin: 0;
+        >span {
+          color: rgb(0, 202, 253);
+        }
+      }
     }
 
     >.header-container:before {
@@ -47,7 +55,7 @@
   flex-direction: column;
   align-items: center;
 
-  margin-top: 5rem;
+  margin-top: 3rem;
 
   > .search-bar {
     &:hover {
@@ -55,7 +63,7 @@
       background-color: rgba(14, 14, 16, 0.2);
     }
     &:focus-within {
-      background-color: rgba(14, 14, 16, 0.6);
+      background-color: rgba(14, 14, 16, 1);
       border-color: rgb(0, 202, 253);
       border-width: 2px;
     }
@@ -80,7 +88,7 @@
       }
 
       > input {
-        font-size: 1rem;
+        font-size: 1.2rem;
         background-color: transparent;
         border: none;
         margin: 0 0 0 3px;
@@ -96,5 +104,51 @@
       }
     }
   }
-
 }
+
+.wrapper {
+  width: 500px;
+  background: #fff;
+  border-radius: 5px;
+  height: 65px;
+  display: flex;
+  padding: 10px;
+  box-shadow: 0 8px 6px -10px #b3c6ff;
+}
+
+.dropdown{
+  width: 150px;
+  border-right: 2px solid #dde2f1;
+  color: #9fa3b1;
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown ul{
+  position: absolute;
+  top: 70px;
+  left: -10px;
+  background: #fff;
+  width: 150px;
+  border-radius: 5px;
+  padding: 20px;
+  display: block;
+  box-shadow: 8px 8px 6px -10px #b3c6ff;
+}
+
+.dropdown ul.active{
+  display: block;
+}
+
+.dropdown ul li{
+  padding-bottom: 20px;
+}
+
+.dropdown ul li:last-child{
+  padding-bottom: 0;
+}
+
+.dropdown ul li:hover{
+  color: #6f768d;
+}
+
