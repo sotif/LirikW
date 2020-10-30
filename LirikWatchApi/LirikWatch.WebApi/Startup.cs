@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using LirikWatch.Services;
 using LirikWatch.WebApi.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -115,6 +116,8 @@ namespace LirikWatch.WebApi
             });
 
             services.AddCors();
+
+            services.AddCustomServices();
         }
         
         private bool LifetimeValidator(DateTime? notbefore, DateTime? expires, SecurityToken securitytoken, TokenValidationParameters validationparameters)
