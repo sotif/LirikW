@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace LirikWatch.Services.Chat
 
         public async Task<Option<List<Comment>>> GetChatBatch(int vodId, float startTimeOffset, float endTimeOffset)
         {
+            _log.LogDebug($"Received chat batch request for {vodId.ToString()} from {startTimeOffset.ToString(CultureInfo.InvariantCulture)} - {endTimeOffset.ToString(CultureInfo.InvariantCulture)}");
             if (!_fileDict.TryGetValue(vodId.ToString(), out var path))
                 return Option.None<List<Comment>>();
 
