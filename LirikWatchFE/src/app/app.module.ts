@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
+import {TabViewModule} from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {appRoutes} from './routes';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    TabViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
