@@ -7,7 +7,7 @@ namespace LirikWatch.Services
     {
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
-            services.AddSingleton<IChatService, ChatService>();
+            services.AddSingleton<IChatService, ChatServiceFile>();
             
             return services;
         }
