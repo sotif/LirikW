@@ -1,0 +1,40 @@
+{
+    "Video": {
+        "Title": "POGGERS",
+        "BroadcastId": 39563360077,
+        "Url": "https://www.twitch.tv/videos/777321233",
+        "CreatedAt": "2020-10-21T16:40:47Z",
+        "Id": "v777321233",
+        "LengthInSeconds": 23272
+    },
+    "Games": [
+        {
+            "DurationMilliseconds": 2753000,
+            "PositionMilliseconds": 0,
+            "Id": "509658",
+            "Title": "Just Chatting",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Just%20Chatting-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 5270000,
+            "PositionMilliseconds": 2753000,
+            "Id": "516815",
+            "Title": "Beyond The Wire",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Beyond%20The%20Wire-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 14926000,
+            "PositionMilliseconds": 8023000,
+            "Id": "506442",
+            "Title": "DOOM Eternal",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/DOOM%20Eternal-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 323000,
+            "PositionMilliseconds": 22949000,
+            "Id": "509658",
+            "Title": "Just Chatting",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Just%20Chatting-40x53.jpg"
+        }
+    ]
+}
