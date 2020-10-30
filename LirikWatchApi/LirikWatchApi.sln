@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LirikWatch.Data", "LirikWat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LirikWatch.Services", "LirikWatch.Services\LirikWatch.Services.csproj", "{928450E0-A9A5-4971-B806-CA47BEF3638D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LirikWatch.Common", "LirikWatch.Common\LirikWatch.Common.csproj", "{DFC463C6-100E-447C-9015-0D754769DA19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{928450E0-A9A5-4971-B806-CA47BEF3638D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{928450E0-A9A5-4971-B806-CA47BEF3638D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{928450E0-A9A5-4971-B806-CA47BEF3638D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC463C6-100E-447C-9015-0D754769DA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC463C6-100E-447C-9015-0D754769DA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC463C6-100E-447C-9015-0D754769DA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC463C6-100E-447C-9015-0D754769DA19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
