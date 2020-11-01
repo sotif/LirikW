@@ -1,0 +1,35 @@
+@import "src/shared/scss/settings";
+
+.nav-bar {
+  width: 100%;
+  margin: 0;
+  padding: 0 $m-size;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+
+  .back-arrow {
+    font-size: 1.4rem;
+    color: $lirik-blue;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+
+    &:hover:link:visited:active {
+      text-decoration: none;
+      color: white;
+    }
+  }
+
+  .nav-header {
+    font-size: 2.7rem;
+    margin: 0;
+    >span {
+      color: $lirik-blue;
+    }
+  }
+}

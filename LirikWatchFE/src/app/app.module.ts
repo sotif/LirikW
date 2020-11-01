@@ -7,17 +7,25 @@ import { HomeComponent } from './home/home.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
 import {TabViewModule} from 'primeng/tabview';
+import { VodReplayComponent } from './vod-replay/vod-replay.component';
+import { VodNavComponent } from './vod-replay/components/vod-nav/vod-nav.component';
+import {YouTubePlayerModule} from '@angular/youtube-player';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    VodReplayComponent,
+    VodNavComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
-    TabViewModule
+    TabViewModule,
+    YouTubePlayerModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

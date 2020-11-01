@@ -25,7 +25,7 @@
         font-size: $xl-size;
        margin: 0;
         >span {
-          color: rgb(0, 202, 253);
+          color: $lirik-blue;
         }
       }
     }
@@ -66,8 +66,13 @@
       background-color: #18181b;
       border-color: rgb(0, 202, 253);
       border-width: 2px;
+
+
+      -webkit-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+      -moz-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+      box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
     }
-    max-width: 35rem;
+    max-width: 40rem;
     width: 100%;
     display: flex;
     border: 1px solid #dfe1e5;
@@ -107,7 +112,7 @@
 }
 
 .search-dropdown {
-  max-width: 35rem;
+  max-width: 40rem;
   width: 100%;
   background: #18181b;
   height: 200px;
@@ -115,6 +120,10 @@
   display: flex;
   position: relative;
   top: 0;
+
+  -webkit-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
 }
 
 .search-tabview {

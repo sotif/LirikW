@@ -1,0 +1,30 @@
+<div class="vod-container">
+  <app-vod-nav></app-vod-nav>
+
+  <div class="vod-chat">
+    <!--Video player-->
+    <div class="vod-player">
+      <youtube-player
+        #player
+        [videoId]="ytVideoId"
+        (ready)="onReady($event)"
+        (stateChange)="onStateChange($event)"
+        width="100%"
+        height="100%"
+      >
+
+      </youtube-player>
+    </div>
+    <!--Chat-->
+    <div class="chat">
+      <div class="chat-header">
+        <span>Vod Chat Replay</span>
+      </div>
+      <div class="message-list" #messageList>
+        <div class="message" *ngFor="let msg of this.viewChat" #messages>
+          <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: {{msg.messageContent.body}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

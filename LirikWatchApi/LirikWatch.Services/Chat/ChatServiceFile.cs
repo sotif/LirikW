@@ -18,7 +18,7 @@ namespace LirikWatch.Services.Chat
         public ChatServiceFile(ILogger<ChatServiceFile> log)
         {
             _log = log;
-            var files = Directory.GetFiles("F:/Coding/LirikWatch/ExampleData");
+            var files = Directory.GetFiles("F:/Coding/LirikWatch/ExampleData/TestData/Chat");
             _fileDict = files
                 .ToDictionary(x => Path.GetFileNameWithoutExtension(x).Split('-')[1].TrimStart('v'), x => x);
         }
