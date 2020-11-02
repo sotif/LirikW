@@ -22,6 +22,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private vodId: number;
   private playerReady = false;
   private lastCheckTime = 0;
+  private lastTime = 0;
 
   private readonly FETCH_INTERVAL = 7;
   private readonly CHAT_OFFSET_SIZE = 10;
@@ -54,8 +55,10 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
         // Check if chat replay exists
         // TODO CHECK THIS :D
 
+        this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
+
         // start fetch timer
-        interval(1000)
+        interval(500)
           .pipe(takeUntil(this.destroy$))
           .subscribe(x => {
             this.fetchChat();
@@ -79,6 +82,30 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     if (e.data === 0) {
       this.player.playVideo();
     }
+
+    console.log(e);
+  }
+
+  private clearChat(): void {
+    this.viewChat = [];
+    this.recChat = [];
+    this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
+  }
+
+  private createSystemMessage(message: string): Comment {
+    return {
+      commenter: {
+        displayName: 'System'
+      },
+      id: '0',
+      messageContent: {
+        userColor: '#808080',
+        body: message,
+        emotes: null
+      },
+      contentOffsetSeconds: 0,
+      createdAt: ''
+    };
   }
 
   private fetchChat(): void {
@@ -87,7 +114,22 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // Periodically get chat for yt timestamp
     const time = parseInt(this.player._player.getCurrentTime().toFixed(3), 10);
-    if (time <= (this.lastCheckTime + this.FETCH_INTERVAL)) {
+
+    // CHECK IF PAUSED
+    if (this.player.paused) {
+      return;
+    }
+
+    // CHECK IF WE SKIPPED!
+    let cleared = false;
+    if (Math.abs(time - this.lastTime) > 2) {
+      this.clearChat();
+      cleared = true;
+    }
+
+    this.lastTime = time;
+
+    if (time <= (this.lastCheckTime + this.FETCH_INTERVAL) && !cleared) {
       return; // Paused or not enough time passed
     }
 
@@ -134,7 +176,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onMessageListChanged(): void {
-    console.log('scroll called');
     this.scrollToBottom();
   }
 
