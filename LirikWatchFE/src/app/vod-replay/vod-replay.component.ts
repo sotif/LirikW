@@ -116,7 +116,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     const time = parseInt(this.player._player.getCurrentTime().toFixed(3), 10);
 
     // CHECK IF PAUSED
-    if (this.player.paused) {
+    if (this.player._player.getPlayerState() === 2) {
       return;
     }
 
