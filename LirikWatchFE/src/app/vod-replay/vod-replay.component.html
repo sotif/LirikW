@@ -20,7 +20,7 @@
       <div class="chat-header">
         <span>Vod Chat Replay</span>
       </div>
-      <div class="message-list" #messageList>
+      <div class="message-list custom-scrollbar" #messageList>
         <div class="message" *ngFor="let msg of this.viewChat" #messages>
           <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: {{msg.messageContent.body}}
         </div>

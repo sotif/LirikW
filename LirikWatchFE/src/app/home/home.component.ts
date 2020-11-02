@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {FilterService} from './services/filter.service';
+import {FilterResult} from './models/filters';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   public searchString: string;
   public searchObservable: Subject<string> = new Subject<string>();
 
+  public filterResult: FilterResult;
+  public loading = false;
+
   private destroy$  = new Subject();
 
-  constructor() { }
+  constructor(
+    private filterService: FilterService
+  ) { }
 
   ngOnInit(): void {
     this.searchObservable.pipe(
@@ -25,6 +32,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     ).subscribe(search => {
       this.searchString = search;
       this.searching = !!this.searchString;
+      this.loading = this.searching;
+
+      // Do the actual search
+      this.filterService.getTotalFilter(this.searchString)
+        .subscribe(
+          (filter) => {
+            this.loading = false;
+            this.filterResult = filter;
+          },
+          err => {
+            // TODO PROPER ERROR
+            console.error(err);
+            this.loading = false;
+          }
+        );
     });
   }
 

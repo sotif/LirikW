@@ -12,6 +12,9 @@ import { VodNavComponent } from './vod-replay/components/vod-nav/vod-nav.compone
 import {YouTubePlayerModule} from '@angular/youtube-player';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import { LoadSpinnerComponent } from './shared/components/load-spinner/load-spinner.component';
+import { FilterVideoComponent } from './home/components/filter-video/filter-video.component';
+import { FilterGameComponent } from './home/components/filter-game/filter-game.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import {FormsModule} from '@angular/forms';
     HomeComponent,
     VodReplayComponent,
     VodNavComponent,
+    LoadSpinnerComponent,
+    FilterVideoComponent,
+    FilterGameComponent,
   ],
   imports: [
     BrowserModule,

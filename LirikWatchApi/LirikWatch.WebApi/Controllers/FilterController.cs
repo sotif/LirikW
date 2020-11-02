@@ -22,6 +22,9 @@ namespace LirikWatch.WebApi.Controllers
         [HttpGet]
         public ActionResult<FilterDto> CompleteFilter([FromQuery] string search)
         {
+            if (string.IsNullOrWhiteSpace(search))
+                return BadRequest("Please specify a search query");
+            
             var titleTask = _filterService.FilterVods(search);
             var gameTask = _filterService.FilterGames(search);
             Task<List<Video>> dateTask = Task.FromResult<List<Video>>(null);

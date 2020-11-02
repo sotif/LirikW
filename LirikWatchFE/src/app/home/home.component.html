@@ -20,18 +20,35 @@
       </div>
 
       <div class="search-dropdown" *ngIf="searching">
-        <p-tabView class="search-tabview">
-          <p-tabPanel header="All">
-            Content 1
+        <app-load-spinner *ngIf="loading"></app-load-spinner>
+        <p-tabView class="search-tabview" *ngIf="!loading">
+          <p-tabPanel header="All" *ngIf="filterResult?.filterGames || filterResult?.filterTitles">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-game *ngFor="let game of filterResult?.filterGames" [game]="game">
+              </app-filter-game>
+
+              <app-filter-video *ngFor="let video of filterResult?.filterTitles" [video]="video">
+              </app-filter-video>
+            </div>
           </p-tabPanel>
-          <p-tabPanel header="Titles">
-            Content 1
+
+          <p-tabPanel header="Titles" *ngIf="filterResult?.filterTitles">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-video *ngFor="let video of filterResult.filterTitles" [video]="video">
+              </app-filter-video>
+            </div>
           </p-tabPanel>
-          <p-tabPanel header="Games">
-            Content 2
+
+          <p-tabPanel header="Games" *ngIf="filterResult?.filterGames">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-game *ngFor="let game of filterResult.filterGames" [game]="game">
+              </app-filter-game>
+            </div>
           </p-tabPanel>
-          <p-tabPanel header="Dates">
-            Content 3
+
+          <p-tabPanel header="Dates" *ngIf="filterResult?.filterDates">
+            <div class="filter-list custom-scrollbar">
+            </div>
           </p-tabPanel>
         </p-tabView>
       </div>
