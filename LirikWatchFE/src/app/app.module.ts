@@ -11,6 +11,7 @@ import { VodReplayComponent } from './vod-replay/vod-replay.component';
 import { VodNavComponent } from './vod-replay/components/vod-nav/vod-nav.component';
 import {YouTubePlayerModule} from '@angular/youtube-player';
 import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {HttpClientModule} from '@angular/common/http';
     TabViewModule,
     YouTubePlayerModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

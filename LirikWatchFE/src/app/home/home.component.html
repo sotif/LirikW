@@ -10,7 +10,7 @@
           <div class="search-bar__padder">
 
             <!--            [(ngModel)]="youtubeUrl" (keydown.enter)="onYoutubeSearch()"-->
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" [ngModel]="searchString" (ngModelChange)="searchChanged($event)">
             <div class="search-bar__icon">
               <!--              <fa-icon [icon]="faSearch"></fa-icon>-->
               <i class="pi pi-search"></i>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="search-dropdown">
+      <div class="search-dropdown" *ngIf="searching">
         <p-tabView class="search-tabview">
           <p-tabPanel header="All">
             Content 1
