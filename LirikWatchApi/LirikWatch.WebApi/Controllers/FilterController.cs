@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using LirikWatch.Common.Records.VideoRecords;
+using LirikWatch.Services.Filter;
+using LirikWatch.WebApi.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LirikWatch.WebApi.Controllers
 {
@@ -6,6 +12,30 @@ namespace LirikWatch.WebApi.Controllers
     [ApiController]
     public class FilterController : ControllerBase
     {
-        
+        private readonly IFilterService _filterService;
+
+        public FilterController(IFilterService filterService)
+        {
+            _filterService = filterService;
+        }
+
+        [HttpGet]
+        public ActionResult<FilterDto> CompleteFilter([FromQuery] string search)
+        {
+            var titleTask = _filterService.FilterVods(search);
+            var gameTask = _filterService.FilterGames(search);
+            Task<List<Video>> dateTask = Task.FromResult<List<Video>>(null);
+            if (DateTime.TryParse(search, out var date))
+                dateTask = _filterService.FilterByDate(date);
+
+            Task.WaitAll(titleTask, gameTask, dateTask);
+
+            return Ok(new FilterDto()
+            {
+                FilterTitles = titleTask.Result,
+                FilterGames = gameTask.Result,
+                FilterDates = dateTask.Result
+            });
+        }
     }
 }
