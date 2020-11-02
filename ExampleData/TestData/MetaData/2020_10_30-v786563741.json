@@ -1,1 +1,26 @@
-{"Video":{"Title":"🎃🎃 - Looking at Pumpkin Carvings Today!","BroadcastId":39619506141,"Url":"https://www.twitch.tv/videos/786563741","CreatedAt":"2020-10-30T16:05:08Z","Id":"v786563741","LengthInSeconds":26502},"Games":[{"DurationMilliseconds":9643000,"PositionMilliseconds":0,"Id":"509658","Title":"Just Chatting","BoxArtUrl":"https://static-cdn.jtvnw.net/ttv-boxart/Just%20Chatting-40x53.jpg"},{"DurationMilliseconds":16859000,"PositionMilliseconds":9643000,"Id":"514207","Title":"The Dark Pictures Anthology: Little Hope","BoxArtUrl":"https://static-cdn.jtvnw.net/ttv-boxart/./The%20Dark%20Pictures%20Anthology:%20Little%20Hope-40x53.jpg"}]}
+{
+    "Video": {
+        "Title": "🎃🎃 - Looking at Pumpkin Carvings Today!",
+        "BroadcastId": 39619506141,
+        "Url": "https://www.twitch.tv/videos/786563741",
+        "CreatedAt": "2020-10-30T16:05:08Z",
+        "Id": "v786563741",
+        "LengthInSeconds": 26502
+    },
+    "Games": [
+        {
+            "DurationMilliseconds": 9643000,
+            "PositionMilliseconds": 0,
+            "Id": "509658",
+            "Title": "Just Chatting",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Just%20Chatting-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 16859000,
+            "PositionMilliseconds": 9643000,
+            "Id": "514207",
+            "Title": "The Dark Pictures Anthology: Little Hope",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/./The%20Dark%20Pictures%20Anthology:%20Little%20Hope-40x53.jpg"
+        }
+    ]
+}

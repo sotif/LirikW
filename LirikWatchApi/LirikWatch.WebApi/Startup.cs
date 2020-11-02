@@ -4,6 +4,8 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using LirikWatch.Services;
+using LirikWatch.Services.Chat;
+using LirikWatch.Services.Filter;
 using LirikWatch.WebApi.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -128,6 +130,10 @@ namespace LirikWatch.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Warm up all the services that need it
+            app.ApplicationServices.GetRequiredService<IChatService>();
+            app.ApplicationServices.GetRequiredService<IFilterService>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
