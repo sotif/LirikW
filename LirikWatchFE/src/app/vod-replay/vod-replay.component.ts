@@ -25,6 +25,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private readonly FETCH_INTERVAL = 7;
   private readonly CHAT_OFFSET_SIZE = 10;
+  private readonly MAX_CHAT_SIZE = 120;
 
   private destroy$  = new Subject();
   private recChat: Comment[] = [];
@@ -115,6 +116,11 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       // Else we pop and keep going
       this.recChat.shift();
       this.viewChat.push(top);
+
+      // Check viewChat size to reduce ram usage and lag
+      if (this.viewChat.length >= this.MAX_CHAT_SIZE) {
+        this.viewChat = this.viewChat.slice((this.MAX_CHAT_SIZE / 2), this.viewChat.length);
+      }
     }
   }
 
