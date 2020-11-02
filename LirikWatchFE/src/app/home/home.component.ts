@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
-import {FilterResult} from './models/filters';
+import {FilterResult, Video} from './models/filters';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +15,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public searchString: string;
   public searchObservable: Subject<string> = new Subject<string>();
 
+  public searchResults: Video[];
   public filterResult: FilterResult;
   public loading = false;
+
+  public latestVods: Video[];
 
   private destroy$  = new Subject();
 
@@ -48,6 +51,14 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         );
     });
+
+    this.filterService.getLatestVods(8)
+      .subscribe((latest) => {
+        this.latestVods = latest;
+      }, err => {
+        // TODO proper ERROR
+        console.error(err);
+      });
   }
 
   ngOnDestroy(): void {

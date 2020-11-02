@@ -10,5 +10,6 @@ namespace LirikWatch.Services.Filter
         public Task<List<Games>> FilterGames(string search);
         public Task<List<Video>> FilterVods(string search);
         public Task<List<Video>> FilterByDate(DateTime date);
+        public Task<List<Video>> LatestVods(int amount);
     }
 }

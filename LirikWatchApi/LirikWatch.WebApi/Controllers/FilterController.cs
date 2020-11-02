@@ -40,5 +40,15 @@ namespace LirikWatch.WebApi.Controllers
                 FilterDates = dateTask.Result
             });
         }
+
+        [HttpGet("latest")]
+        public async Task<ActionResult<List<Video>>> GetLatestVods([FromQuery] int amount = 8)
+        {
+            if (amount < 1)
+                return BadRequest("Amount must be greater than 0");
+
+            var vods = await _filterService.LatestVods(amount);
+            return Ok(vods);
+        }
     }
 }

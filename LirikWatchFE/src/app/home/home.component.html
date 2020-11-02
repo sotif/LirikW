@@ -53,23 +53,22 @@
           </p-tabPanel>
         </p-tabView>
       </div>
-<!--Dropdown-->
-<!--      <div class="wrapper">-->
-<!--        <div class="dropdown">-->
-<!--          <ul>-->
-<!--            <li>All</li>-->
-<!--            <li>Recent</li>-->
-<!--            <li>Popular</li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--      </div>-->
-
-
-    </div>
-
-
-    <!--Search Results-->
-    <div>
-
     </div>
   </div>
+
+  <div class="content-container">
+    <!--Search Results-->
+    <div *ngIf="searchResults">
+
+    </div>
+
+    <!--Latest Vods-->
+    <div class="latest-vods" *ngIf="!searchResults && latestVods">
+      <h1>Latest Vods</h1>
+      <div class="vod-list">
+        <app-filter-video style="width: 200px" *ngFor="let video of latestVods" [video]="video"></app-filter-video>
+      </div>
+    </div>
+  </div>
+
+</div>

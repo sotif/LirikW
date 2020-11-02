@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {FilterResult} from '../models/filters';
+import {FilterResult, Video} from '../models/filters';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,13 @@ export class FilterService {
       .set('search', search);
 
     return this.http.get<FilterResult>(this.baseUrl + 'filter/', { params });
+  }
+
+  public getLatestVods(amount: number): Observable<Video[]> {
+    const params = new HttpParams()
+      .set('amount', amount.toString());
+
+    return this.http.get<Video[]>(this.baseUrl + 'filter/latest', { params });
   }
 
 }

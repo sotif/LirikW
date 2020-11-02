@@ -178,3 +178,38 @@
   background-color: #18181b;
   color: white;
 }
+
+.latest-vods {
+  position: relative;
+  width: 100%;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 40px;
+    border-bottom: solid 2px $lirik-blue;
+    position: absolute;
+    top: 75px;
+  }
+
+  .vod-list {
+    width: 100%;
+    display: inline-block;
+    float: left;
+  }
+}
+
+/* >.header-container:before {
+      content : "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: auto;
+      background-image: url(../../assets/images/Logo.png);
+      background-size: contain;
+      width: 60%;
+      height: 450px;
+      opacity : 0.02;
+      background-repeat: no-repeat;
+      background-position: 50% 0;
+    }*/

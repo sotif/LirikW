@@ -72,5 +72,16 @@ namespace LirikWatch.Services.Filter
 
             return Task.FromResult(vods);
         }
+
+        public Task<List<Video>> LatestVods(int amount)
+        {
+            var vods = this._metaData
+                .OrderByDescending(x => x.Video.CreatedAt)
+                .Take(amount)
+                .Select(x=> x.Video)
+                .ToList();
+
+            return Task.FromResult(vods);
+        }
     }
 }
