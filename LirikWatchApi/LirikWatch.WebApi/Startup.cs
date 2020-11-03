@@ -88,40 +88,6 @@ namespace LirikWatch.WebApi
             });
             services.AddRouting(op => op.LowercaseUrls = true);
 
-            services.AddAuthentication() //JwtBearerDefaults.AuthenticationScheme
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.ASCII.GetBytes("123132123")), //TODO JWT KEY
-                        ValidateIssuer = true,
-                        //Usually, this is your application base URL
-                        ValidIssuer = "http://localhost:5000/", // TODO constant token issuer
-                        ValidateAudience = false,
-                        //Here, we are creating and using JWT within the same application.
-                        //In this case, base URL is fine.
-                        //If the JWT is created using a web service, then this would be the consumer URL.
-                        // WE CANNOT USE THIS 
-                        // we use this as an API that you can call via any other machines and processes. 
-                        // ValidAudience = "http://localhost:5000/", 
-                        RequireExpirationTime =
-                            false, // So we can generate permanent tokens for easier API management
-                        ValidateLifetime =
-                            true, // We still want to validate the frontend tokens tho since those are time bound.
-                        LifetimeValidator = LifetimeValidator
-                    };
-                });
-            
-            services.AddAuthorization(op =>
-            {
-                op.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .AddAuthenticationSchemes("Bearer").Build();
-            });
-
             services.AddCors();
 
             services.AddConfigurations(_configuration);
@@ -178,9 +144,6 @@ namespace LirikWatch.WebApi
             
             app.UseRouting();
 
-            app.UseAuthorization();
-            app.UseAuthentication();
-            
             // Add support for static files. Ordering is important
             app.UseDefaultFiles(); // search index.html in wwwroot
             app.UseStaticFiles();
