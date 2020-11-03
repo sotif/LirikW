@@ -180,9 +180,11 @@
   color: white;
 }
 
-.latest-vods {
+.vod-results {
   position: relative;
   width: 100%;
+
+  margin-bottom: $xl-size;
 
   &:before {
     content: "";
@@ -201,7 +203,8 @@
     .filter-wrap {
       flex: 1 0 auto;
       order: 0;
-      width: 30rem;
+      width: 35rem;
+      max-width: 35rem;
       padding: 0 $xs-size;
     }
   }

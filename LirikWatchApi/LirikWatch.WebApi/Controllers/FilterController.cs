@@ -25,8 +25,8 @@ namespace LirikWatch.WebApi.Controllers
             if (string.IsNullOrWhiteSpace(search))
                 return BadRequest("Please specify a search query");
             
-            var titleTask = _filterService.FilterVods(search);
-            var gameTask = _filterService.FilterGames(search);
+            var titleTask = _filterService.FilterVodsByTitle(search);
+            var gameTask = _filterService.FilterGamesByTitle(search);
             Task<List<Video>> dateTask = Task.FromResult<List<Video>>(null);
             if (DateTime.TryParse(search, out var date))
                 dateTask = _filterService.FilterByDate(date);
@@ -48,6 +48,16 @@ namespace LirikWatch.WebApi.Controllers
                 return BadRequest("Amount must be greater than 0");
 
             var vods = await _filterService.LatestVods(amount);
+            return Ok(vods);
+        }
+
+        [HttpGet("game")]
+        public async Task<ActionResult<List<Video>>> GetVodsByGame([FromQuery] string gameId)
+        {
+            if (string.IsNullOrWhiteSpace(gameId))
+                return BadRequest("Please specify a gameId");
+
+            var vods = await _filterService.DeepFilterByGame(gameId);
             return Ok(vods);
         }
     }

@@ -28,4 +28,11 @@ export class FilterService {
     return this.http.get<Video[]>(this.baseUrl + 'filter/latest', { params });
   }
 
+  public getFilterByGame(gameId: string): Observable<Video[]> {
+    const params = new HttpParams()
+      .set('gameId', gameId);
+
+    return this.http.get<Video[]>(this.baseUrl + 'filter/game', { params });
+  }
+
 }

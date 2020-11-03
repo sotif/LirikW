@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
-import {FilterResult, Video} from './models/filters';
+import {FilterResult, Game, Video} from './models/filters';
 
 @Component({
   selector: 'app-home',
@@ -67,5 +67,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public searchChanged(e: string): void {
     this.searchObservable.next(e);
+  }
+
+  public filterByGame(game: Game): void {
+    this.searching = false;
+    this.loading = false;
+    this.searchString = '';
+
+    this.filterService.getFilterByGame(game.id)
+      .subscribe(vods => {
+        this.searchResults = vods;
+      }, err => {
+        // TODO PROPER ERROR HANDLING
+        console.error(err);
+      });
   }
 }

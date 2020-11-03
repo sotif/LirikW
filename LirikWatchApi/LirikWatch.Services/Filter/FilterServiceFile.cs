@@ -45,7 +45,7 @@ namespace LirikWatch.Services.Filter
             }            
         }
 
-        public Task<List<Games>> FilterGames(string search)
+        public Task<List<Games>> FilterGamesByTitle(string search)
         {
             var filtered = this._games
                 .Where(x => x.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase))
@@ -53,7 +53,7 @@ namespace LirikWatch.Services.Filter
             return Task.FromResult(filtered);
         }
 
-        public Task<List<Video>> FilterVods(string search)
+        public Task<List<Video>> FilterVodsByTitle(string search)
         {
             var filtered = this._metaData
                 .Where(x => x.Video.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase))
@@ -79,6 +79,17 @@ namespace LirikWatch.Services.Filter
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Take(amount)
                 .Select(x=> x.Video)
+                .ToList();
+
+            return Task.FromResult(vods);
+        }
+
+        public Task<List<Video>> DeepFilterByGame(string gameId)
+        {
+            var vods = this._metaData
+                .Where(x => x.Games.Any(y => y.Id == gameId))
+                .OrderByDescending(x => x.Video.CreatedAt)
+                .Select(x => x.Video)
                 .ToList();
 
             return Task.FromResult(vods);

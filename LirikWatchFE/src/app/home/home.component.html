@@ -25,7 +25,7 @@
           <p-tabPanel header="All" *ngIf="(filterResult.filterGames && filterResult.filterGames.length != 0) ||
                                             (filterResult?.filterTitles && filterResult.filterTitles.length != 0)">
             <div class="filter-list custom-scrollbar">
-              <app-filter-game *ngFor="let game of filterResult?.filterGames" [game]="game">
+              <app-filter-game *ngFor="let game of filterResult?.filterGames" [game]="game" (click)="filterByGame(game)">
               </app-filter-game>
 
               <app-filter-video *ngFor="let video of filterResult?.filterTitles" [video]="video">
@@ -42,7 +42,7 @@
 
           <p-tabPanel header="Games" *ngIf="filterResult?.filterGames && filterResult.filterGames.length != 0">
             <div class="filter-list custom-scrollbar">
-              <app-filter-game *ngFor="let game of filterResult.filterGames" [game]="game">
+              <app-filter-game *ngFor="let game of filterResult.filterGames" [game]="game" (click)="filterByGame(game)">
               </app-filter-game>
             </div>
           </p-tabPanel>
@@ -56,14 +56,19 @@
     </div>
   </div>
 
-  <div class="content-container">
+  <div class="content-container flex-direction-col vod-list-container">
     <!--Search Results-->
-    <div *ngIf="searchResults">
-
+    <div class="vod-results" *ngIf="searchResults">
+      <h1>Search Results</h1>
+      <div class="vod-list">
+        <div class="filter-wrap" *ngFor="let video of searchResults">
+          <app-filter-video [video]="video"></app-filter-video>
+        </div>
+      </div>
     </div>
 
     <!--Latest Vods-->
-    <div class="latest-vods" *ngIf="!searchResults && latestVods">
+    <div class="vod-results" *ngIf="latestVods">
       <h1>Latest Vods</h1>
       <div class="vod-list">
         <div class="filter-wrap" *ngFor="let video of latestVods">
