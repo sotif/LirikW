@@ -1,0 +1,47 @@
+{
+    "Video": {
+        "Title": "🎃💀SUB SUNDAY EXTREME VARIETY EDITION💀🎃",
+        "BroadcastId": 39591071565,
+        "Url": "https://www.twitch.tv/videos/781539804",
+        "CreatedAt": "2020-10-25T16:05:14Z",
+        "Id": "v781539804",
+        "LengthInSeconds": 12272
+    },
+    "Games": [
+        {
+            "DurationMilliseconds": 1333000,
+            "PositionMilliseconds": 0,
+            "Id": "509658",
+            "Title": "Just Chatting",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Just%20Chatting-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 3389000,
+            "PositionMilliseconds": 1333000,
+            "Id": "516632",
+            "Title": "Pumpkin Jack",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Pumpkin%20Jack-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 3223000,
+            "PositionMilliseconds": 4722000,
+            "Id": "508084",
+            "Title": "DISC ROOM",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/DISC%20ROOM-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 2922000,
+            "PositionMilliseconds": 7945000,
+            "Id": "66082",
+            "Title": "Games + Demos",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Games%20+%20Demos-40x53.jpg"
+        },
+        {
+            "DurationMilliseconds": 0,
+            "PositionMilliseconds": 10867000,
+            "Id": "515437",
+            "Title": "Alchemist Simulator",
+            "BoxArtUrl": "https://static-cdn.jtvnw.net/ttv-boxart/Alchemist%20Simulator-40x53.jpg"
+        }
+    ]
+}

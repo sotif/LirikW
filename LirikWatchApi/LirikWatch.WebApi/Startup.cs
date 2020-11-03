@@ -3,7 +3,12 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using LirikWatch.Common.Configurations;
+using LirikWatch.Services;
+using LirikWatch.Services.Chat;
+using LirikWatch.Services.Filter;
 using LirikWatch.WebApi.Helpers;
+using LirikWatch.Yt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -21,10 +26,10 @@ namespace LirikWatch.WebApi
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
         
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
@@ -77,7 +82,10 @@ namespace LirikWatch.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(op =>
+            {
+                op.UseCamelCasing(false);
+            });
             services.AddRouting(op => op.LowercaseUrls = true);
 
             services.AddAuthentication() //JwtBearerDefaults.AuthenticationScheme
@@ -115,6 +123,11 @@ namespace LirikWatch.WebApi
             });
 
             services.AddCors();
+
+            services.AddConfigurations(_configuration);
+
+            services.AddCustomServices();
+            services.AddYtServices();
         }
         
         private bool LifetimeValidator(DateTime? notbefore, DateTime? expires, SecurityToken securitytoken, TokenValidationParameters validationparameters)
@@ -125,6 +138,10 @@ namespace LirikWatch.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Warm up all the services that need it
+            app.ApplicationServices.GetRequiredService<IChatService>();
+            app.ApplicationServices.GetRequiredService<IFilterService>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

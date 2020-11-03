@@ -1,0 +1,102 @@
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {FilterService} from './services/filter.service';
+import {FilterResult, Game, Video} from './models/filters';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit, OnDestroy {
+
+  public searching = false;
+  public searchString: string;
+  public searchObservable: Subject<string> = new Subject<string>();
+
+  public searchResults: Video[];
+  public filterResult: FilterResult;
+  public loading = false;
+
+  public latestVods: Video[];
+
+  private destroy$  = new Subject();
+
+  @HostListener('document:keydown', ['$event']) onKeyDown(e: KeyboardEvent): void {
+    if (e.code === 'Escape') {
+      this.searching = false;
+      this.loading = false;
+    }
+  }
+
+  constructor(
+    private filterService: FilterService
+  ) { }
+
+  ngOnInit(): void {
+    this.searchObservable.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(search => {
+      this.searchString = search;
+      this.searching = !!this.searchString;
+      this.loading = this.searching;
+
+      // Do the actual search
+      this.filterService.getTotalFilter(this.searchString)
+        .subscribe(
+          (filter) => {
+            this.loading = false;
+            this.filterResult = filter;
+            console.log(this.hasAnyResult());
+          },
+          err => {
+            // TODO PROPER ERROR
+            console.error(err);
+            this.loading = false;
+          }
+        );
+    });
+
+    this.filterService.getLatestVods(8)
+      .subscribe((latest) => {
+        this.latestVods = latest;
+      }, err => {
+        // TODO proper ERROR
+        console.error(err);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  public hasAnyResult(): boolean {
+    return this.filterResult &&
+      (
+        (this.filterResult.filterGames && this.filterResult.filterGames.length > 0 ) ||
+        (this.filterResult.filterTitles && this.filterResult.filterTitles.length > 0) ||
+        (this.filterResult.filterDates && this.filterResult.filterDates.length > 0)
+      );
+  }
+
+  public searchChanged(e: string): void {
+    this.searchObservable.next(e);
+  }
+
+  public filterByGame(game: Game): void {
+    this.searching = false;
+    this.loading = false;
+    this.searchString = '';
+
+    this.filterService.getFilterByGame(game.id)
+      .subscribe(vods => {
+        this.searchResults = vods;
+      }, err => {
+        // TODO PROPER ERROR HANDLING
+        console.error(err);
+      });
+  }
+}

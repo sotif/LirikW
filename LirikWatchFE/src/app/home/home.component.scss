@@ -1,0 +1,224 @@
+@import "src/shared/scss/settings";
+
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  >.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    >.header-container {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 450px;
+
+      >h1 {
+        font-size: $xl-size;
+       margin: 0;
+        >span {
+          color: $lirik-blue;
+        }
+      }
+    }
+
+    >.header-container:before {
+      content : "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: auto;
+      background-image: url(../../assets/images/Logo.png);
+      background-size: contain;
+      width: 60%;
+      height: 450px;
+      opacity : 0.02;
+      background-repeat: no-repeat;
+      background-position: 50% 0;
+    }
+  }
+}
+
+.search {
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 3rem;
+
+  > .search-bar {
+    &:hover {
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+      background-color: rgba(14, 14, 16, 0.2);
+    }
+    &:focus-within {
+      //background-color: rgba(14, 14, 16, 1);
+      background-color: #18181b;
+      border-color: rgb(0, 202, 253);
+      border-width: 2px;
+
+
+      -webkit-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+      -moz-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+      box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+    }
+    max-width: 40rem;
+    width: 100%;
+    display: flex;
+    border: 1px solid #dfe1e5;
+    box-shadow: none;
+    border-radius: 15px;
+    z-index: 3;
+    height: 50px;
+    margin: 0 auto;
+
+    > .search-bar__padder {
+      flex: 1;
+      display: flex;
+      padding: 0 14px;
+
+      > .search-bar__icon {
+        color: #9AA0A6;
+        margin: auto 0;
+      }
+
+      > input {
+        font-size: 1.2rem;
+        background-color: transparent;
+        border: none;
+        margin: 0 0 0 3px;
+        padding: 0;
+        outline: none;
+        display: flex;
+        flex: 100%;
+        color: white;
+
+        &::placeholder {
+          color: #d6dee3;
+        }
+      }
+    }
+  }
+}
+
+.search-dropdown {
+  max-width: 40rem;
+  width: 100%;
+  background: $background-dark-grey;
+  height: 400px;
+  border-radius: 15px;
+  display: flex;
+  position: absolute;
+  top: 320px;
+  z-index: 10;
+
+  -webkit-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 40px -15px rgba(0,0,0,0.75);
+}
+
+.nothing-found {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+}
+
+.search-tabview {
+  width: 100%;
+  color: white;
+  background: $background-dark-grey;
+  border-radius: 15px;
+
+  .filter-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav {
+  //border-color: #5b5b5b
+  border-color: white;
+}
+
+:host ::ng-deep div.header-container > div.search-dropdown > p-tabview > div > ul {
+  background-color: #18181b;
+  border-radius: 15px 15px 0 0;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+ box-shadow: none;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background-color: #18181b;
+  color: white;
+  border-color: rgb(0, 202, 253);
+  border-radius: 15px 15px 0 0;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  //border-color: #5b5b5b
+  border-color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background-color: #18181b;
+  color: white;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-panels {
+  background-color: #18181b;
+  color: white;
+}
+
+.vod-results {
+  position: relative;
+  width: 100%;
+
+  margin-bottom: $xl-size;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 40px;
+    border-bottom: solid 2px $lirik-blue;
+    position: absolute;
+    top: 75px;
+  }
+
+  .vod-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap !important;
+
+    .filter-wrap {
+      flex: 1 0 auto;
+      order: 0;
+      width: 35rem;
+      max-width: 35rem;
+      padding: 0 $xs-size;
+    }
+  }
+}
+

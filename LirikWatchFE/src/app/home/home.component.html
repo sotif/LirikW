@@ -1,0 +1,86 @@
+<div class="home">
+  <!--Header-->
+  <div class="header">
+    <div class="header-container">
+
+      <h1>Lirik<span>W</span></h1>
+
+      <div class="search">
+        <div class="search-bar">
+          <div class="search-bar__padder">
+
+            <!--            [(ngModel)]="youtubeUrl" (keydown.enter)="onYoutubeSearch()"-->
+            <input type="text" placeholder="Search" [ngModel]="searchString" (ngModelChange)="searchChanged($event)">
+            <div class="search-bar__icon">
+              <!--              <fa-icon [icon]="faSearch"></fa-icon>-->
+              <i class="pi pi-search"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-dropdown" *ngIf="searching">
+        <div class="nothing-found" *ngIf="loading">
+          <app-load-spinner></app-load-spinner>
+        </div>
+        <div class="nothing-found" *ngIf="!loading && !hasAnyResult()">
+          <h2>Nothing here...</h2>
+        </div>
+        <p-tabView class="search-tabview" *ngIf="!loading && hasAnyResult()">
+          <p-tabPanel header="All" *ngIf="(filterResult.filterGames && filterResult.filterGames.length != 0) ||
+                                            (filterResult?.filterTitles && filterResult.filterTitles.length != 0)">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-game *ngFor="let game of filterResult?.filterGames" [game]="game" (click)="filterByGame(game)">
+              </app-filter-game>
+
+              <app-filter-video *ngFor="let video of filterResult?.filterTitles" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
+              </app-filter-video>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Titles" *ngIf="filterResult?.filterTitles && filterResult.filterTitles.length != 0">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-video *ngFor="let video of filterResult.filterTitles" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
+              </app-filter-video>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Games" *ngIf="filterResult?.filterGames && filterResult.filterGames.length != 0">
+            <div class="filter-list custom-scrollbar">
+              <app-filter-game *ngFor="let game of filterResult.filterGames" [game]="game" (click)="filterByGame(game)">
+              </app-filter-game>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Dates" *ngIf="filterResult?.filterDates && filterResult.filterDates.length != 0">
+            <div class="filter-list custom-scrollbar">
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container flex-direction-col vod-list-container">
+    <!--Search Results-->
+    <div class="vod-results" *ngIf="searchResults">
+      <h1>Search Results</h1>
+      <div class="vod-list">
+        <div class="filter-wrap" *ngFor="let video of searchResults" [routerLink]="['/vod', video.id.replace('v', '')]">
+          <app-filter-video [video]="video"></app-filter-video>
+        </div>
+      </div>
+    </div>
+
+    <!--Latest Vods-->
+    <div class="vod-results" *ngIf="latestVods">
+      <h1>Latest Vods</h1>
+      <div class="vod-list">
+        <div class="filter-wrap" *ngFor="let video of latestVods" [routerLink]="['/vod', video.id.replace('v', '')]">
+          <app-filter-video [video]="video"></app-filter-video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HomeComponent } from './home/home.component';
+import {RouterModule} from '@angular/router';
+import {appRoutes} from './routes';
+import {TabViewModule} from 'primeng/tabview';
+import { VodReplayComponent } from './vod-replay/vod-replay.component';
+import { VodNavComponent } from './vod-replay/components/vod-nav/vod-nav.component';
+import {YouTubePlayerModule} from '@angular/youtube-player';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import { LoadSpinnerComponent } from './shared/components/load-spinner/load-spinner.component';
+import { FilterVideoComponent } from './home/components/filter-video/filter-video.component';
+import { FilterGameComponent } from './home/components/filter-game/filter-game.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    VodReplayComponent,
+    VodNavComponent,
+    LoadSpinnerComponent,
+    FilterVideoComponent,
+    FilterGameComponent,
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes),
+    TabViewModule,
+    YouTubePlayerModule,
+    HttpClientModule,
+    FormsModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
