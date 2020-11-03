@@ -28,14 +28,14 @@
               <app-filter-game *ngFor="let game of filterResult?.filterGames" [game]="game" (click)="filterByGame(game)">
               </app-filter-game>
 
-              <app-filter-video *ngFor="let video of filterResult?.filterTitles" [video]="video">
+              <app-filter-video *ngFor="let video of filterResult?.filterTitles" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
               </app-filter-video>
             </div>
           </p-tabPanel>
 
           <p-tabPanel header="Titles" *ngIf="filterResult?.filterTitles && filterResult.filterTitles.length != 0">
             <div class="filter-list custom-scrollbar">
-              <app-filter-video *ngFor="let video of filterResult.filterTitles" [video]="video">
+              <app-filter-video *ngFor="let video of filterResult.filterTitles" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
               </app-filter-video>
             </div>
           </p-tabPanel>
@@ -61,7 +61,7 @@
     <div class="vod-results" *ngIf="searchResults">
       <h1>Search Results</h1>
       <div class="vod-list">
-        <div class="filter-wrap" *ngFor="let video of searchResults">
+        <div class="filter-wrap" *ngFor="let video of searchResults" [routerLink]="['/vod', video.id.replace('v', '')]">
           <app-filter-video [video]="video"></app-filter-video>
         </div>
       </div>
