@@ -149,7 +149,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((chat) => {
         this.recChat = this.recChat.concat(chat);
       }, err => {
-        this.viewChat.push(this.createSystemMessage('Failed to fetch chat :( Sorry'));
         console.error(err);
       });
   }
