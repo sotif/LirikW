@@ -11,6 +11,7 @@ import {Comment} from './models/chat';
   styleUrls: ['./vod-replay.component.scss']
 })
 export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
+  // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
   public ytVideoId = 'ov3U7JWu_2Y';
   @ViewChild('player') player: any;
 
