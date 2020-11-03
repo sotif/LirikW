@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ArgonautCore.Lw;
 using LirikWatch.Common.Records.VideoRecords;
 
 namespace LirikWatch.WebApi.Dtos
