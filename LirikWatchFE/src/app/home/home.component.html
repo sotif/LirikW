@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="search-dropdown" *ngIf="searching">
+      <div class="search-dropdown"  [ngStyle]="{display: searching ? 'flex' : 'none'}" #searchDropdown>
         <div class="nothing-found" *ngIf="loading">
           <app-load-spinner></app-load-spinner>
         </div>
