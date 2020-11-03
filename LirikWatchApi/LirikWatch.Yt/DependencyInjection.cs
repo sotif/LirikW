@@ -8,6 +8,8 @@ namespace LirikWatch.Yt
     {
         public static IServiceCollection AddYtServices(this IServiceCollection services)
         {
+            services.AddSingleton<IYtService, YtService>();
+            
             return services;
         }
     }

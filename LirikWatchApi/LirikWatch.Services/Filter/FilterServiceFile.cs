@@ -84,7 +84,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> FilterVodsByTitle(string search)
         {
             var filtered = this._metaData
-                .Where(x => x.Video.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase))
+                .Where(x => x.Video.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase) && this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .Select(x =>
                 {
                     var v = x.Video;
@@ -99,7 +99,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> FilterByDate(DateTime date)
         {
             var vods = this._metaData
-                .Where(x => x.Video.CreatedAt.Date.Equals(date.Date))
+                .Where(x => x.Video.CreatedAt.Date.Equals(date.Date) && this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .Select(x => {
                     var v = x.Video;
                     v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
@@ -113,6 +113,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> LatestVods(int amount)
         {
             var vods = this._metaData
+                .Where(x=> this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Take(amount)
                 .Select(x=> {
@@ -128,7 +129,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> DeepFilterByGame(string gameId)
         {
             var vods = this._metaData
-                .Where(x => x.Games.Any(y => y.Id == gameId))
+                .Where(x => x.Games.Any(y => y.Id == gameId) && this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Select(x => {
                     var v = x.Video;
