@@ -28,9 +28,15 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
+
+    h3 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
 
   &:hover {
-    background-color: lighten($background-dark-grey, 4%);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }

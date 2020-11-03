@@ -17,4 +17,9 @@ export interface Video {
   createdAt: Date;
   id: string;
   lengthInSeconds: number;
+  ytId: string;
 }
+
+const getYtThumbnail = (ytId: string) => `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+
+export {getYtThumbnail};

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Video} from '../../models/filters';
+import {Component, Input} from '@angular/core';
+import {Video, getYtThumbnail} from '../../models/filters';
 
 @Component({
   selector: 'app-filter-video',
@@ -9,4 +9,8 @@ import {Video} from '../../models/filters';
 export class FilterVideoComponent {
   @Input() video: Video;
   @Input() styling: string;
+
+  public GetYtThumb(): string {
+    return getYtThumbnail(this.video.ytId);
+  }
 }

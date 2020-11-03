@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
@@ -23,6 +23,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private destroy$  = new Subject();
 
+  @HostListener('document:keydown', ['$event']) onKeyDown(e: KeyboardEvent): void {
+    if (e.code === 'Escape') {
+      this.searching = false;
+      this.loading = false;
+    }
+  }
+
   constructor(
     private filterService: FilterService
   ) { }
@@ -43,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           (filter) => {
             this.loading = false;
             this.filterResult = filter;
+            console.log(this.hasAnyResult());
           },
           err => {
             // TODO PROPER ERROR
@@ -63,6 +71,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy$.next();
+  }
+
+  public hasAnyResult(): boolean {
+    return this.filterResult &&
+      (
+        (this.filterResult.filterGames && this.filterResult.filterGames.length > 0 ) ||
+        (this.filterResult.filterTitles && this.filterResult.filterTitles.length > 0) ||
+        (this.filterResult.filterDates && this.filterResult.filterDates.length > 0)
+      );
   }
 
   public searchChanged(e: string): void {

@@ -4,6 +4,7 @@ import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
+import {YtService} from './services/yt.service';
 
 @Component({
   selector: 'app-vod-replay',
@@ -12,7 +13,7 @@ import {Comment} from './models/chat';
 })
 export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
-  public ytVideoId = 'ov3U7JWu_2Y';
+  public ytVideoId;
   @ViewChild('player') player: any;
 
   @ViewChild('messageList', {static: false}) messageList: ElementRef;
@@ -36,6 +37,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private chatService: ChatService,
+    private ytService: YtService,
   ) { }
 
   ngOnInit(): void {
@@ -53,23 +55,31 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
 
-        // Check if chat replay exists
-        // TODO CHECK THIS :D
+        // Get yt vod id
+        this.ytService.getYtId(this.vodId)
+          .subscribe((id) => {
+            this.ytVideoId = id.id;
 
-        this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
+            this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
 
-        // start fetch timer
-        interval(500)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(x => {
-            this.fetchChat();
-        });
+            // start fetch timer
+            interval(500)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(x => {
+                this.fetchChat();
+              });
 
-        // Update Chat
-        interval(500)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(x => {
-            this.updateChat();
+            // Update Chat
+            interval(500)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(x => {
+                this.updateChat();
+              });
+
+          }, err => {
+            // TODO PROPER ERRORS
+            console.error(err);
+            this.viewChat.push(this.createSystemMessage('Failed to fetch Vod or Youtube video!'));
           });
       });
   }
@@ -83,8 +93,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     if (e.data === 0) {
       this.player.playVideo();
     }
-
-    console.log(e);
   }
 
   private clearChat(): void {
@@ -141,6 +149,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((chat) => {
         this.recChat = this.recChat.concat(chat);
       }, err => {
+        this.viewChat.push(this.createSystemMessage('Failed to fetch chat :( Sorry'));
         console.error(err);
       });
   }
