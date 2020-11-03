@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LirikWatch.Services\LirikWatch.Services.csproj" />
+    <ProjectReference Include="..\LirikWatch.Yt\LirikWatch.Yt.csproj" />
   </ItemGroup>
 
 

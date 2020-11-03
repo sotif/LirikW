@@ -7,6 +7,7 @@ using LirikWatch.Services;
 using LirikWatch.Services.Chat;
 using LirikWatch.Services.Filter;
 using LirikWatch.WebApi.Helpers;
+using LirikWatch.Yt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -24,10 +25,10 @@ namespace LirikWatch.WebApi
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
         
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
@@ -122,7 +123,10 @@ namespace LirikWatch.WebApi
 
             services.AddCors();
 
+            services.AddConfigurations(_configuration);
+
             services.AddCustomServices();
+            services.AddYtServices(_configuration);
         }
         
         private bool LifetimeValidator(DateTime? notbefore, DateTime? expires, SecurityToken securitytoken, TokenValidationParameters validationparameters)
