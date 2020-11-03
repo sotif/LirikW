@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using LirikWatch.Common.Configurations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LirikWatch.WebApi.Helpers
@@ -8,6 +9,8 @@ namespace LirikWatch.WebApi.Helpers
         public static IServiceCollection AddConfigurations(this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.Configure<YtApiConfig>(configuration.GetSection("YtApi"));
+
             return services;
         }
     }

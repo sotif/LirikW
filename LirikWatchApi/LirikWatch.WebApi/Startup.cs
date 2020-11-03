@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using LirikWatch.Common.Configurations;
 using LirikWatch.Services;
 using LirikWatch.Services.Chat;
 using LirikWatch.Services.Filter;
@@ -126,7 +127,7 @@ namespace LirikWatch.WebApi
             services.AddConfigurations(_configuration);
 
             services.AddCustomServices();
-            services.AddYtServices(_configuration);
+            services.AddYtServices();
         }
         
         private bool LifetimeValidator(DateTime? notbefore, DateTime? expires, SecurityToken securitytoken, TokenValidationParameters validationparameters)
