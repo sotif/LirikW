@@ -10,6 +10,7 @@ namespace LirikWatch.WebApi.Helpers
             IConfiguration configuration)
         {
             services.Configure<YtApiConfig>(configuration.GetSection("YtApi"));
+            services.Configure<FileConfigs>(configuration.GetSection("FileLocations"));
 
             return services;
         }
