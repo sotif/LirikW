@@ -66,7 +66,9 @@
     <div class="latest-vods" *ngIf="!searchResults && latestVods">
       <h1>Latest Vods</h1>
       <div class="vod-list">
-        <app-filter-video style="width: 200px" *ngFor="let video of latestVods" [video]="video"></app-filter-video>
+        <div class="filter-wrap" *ngFor="let video of latestVods">
+          <app-filter-video [video]="video"></app-filter-video>
+        </div>
       </div>
     </div>
   </div>

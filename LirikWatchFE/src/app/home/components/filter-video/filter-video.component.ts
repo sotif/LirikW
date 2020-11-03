@@ -8,4 +8,5 @@ import {Video} from '../../models/filters';
 })
 export class FilterVideoComponent {
   @Input() video: Video;
+  @Input() styling: string;
 }

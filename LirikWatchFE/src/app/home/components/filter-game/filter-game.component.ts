@@ -9,4 +9,6 @@ import {Game} from '../../models/filters';
 export class FilterGameComponent {
 
   @Input() game: Game;
+  @Input() styling: string;
+
 }
