@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ArgonautCore.Lw;
+using LirikWatch.Common.Configurations;
 using LirikWatch.Common.Records.ChatRecords;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace LirikWatch.Services.Chat
@@ -15,10 +17,10 @@ namespace LirikWatch.Services.Chat
         private readonly ILogger<ChatServiceFile> _log;
         private readonly Dictionary<string, string> _fileDict;
 
-        public ChatServiceFile(ILogger<ChatServiceFile> log)
+        public ChatServiceFile(ILogger<ChatServiceFile> log, IOptions<FileConfigs> fileConfig)
         {
             _log = log;
-            var files = Directory.GetFiles("F:/Coding/LirikWatch/ExampleData/TestData/Chat");
+            var files = Directory.GetFiles(fileConfig.Value.ChatLogs);
             _fileDict = files
                 .ToDictionary(x => Path.GetFileNameWithoutExtension(x).Split('-')[1].TrimStart('v'), x => x);
         }

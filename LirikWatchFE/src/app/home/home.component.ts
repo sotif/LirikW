@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
@@ -9,7 +9,7 @@ import {FilterResult, Game, Video} from './models/filters';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public searching = false;
   public searchString: string;
@@ -21,7 +21,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public latestVods: Video[];
 
+  private dropDownElement: any;
+
   private destroy$  = new Subject();
+
+  @ViewChild('searchDropdown', {static: false}) searchDropdown: ElementRef;
+
+  @HostListener('document:click', ['$event']) onClick(e: any): void {
+    if (!this.dropDownElement.contains(e.target)) {
+      this.searching = false;
+      this.loading = false;
+    }
+  }
 
   @HostListener('document:keydown', ['$event']) onKeyDown(e: KeyboardEvent): void {
     if (e.code === 'Escape') {
@@ -67,6 +78,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         // TODO proper ERROR
         console.error(err);
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.dropDownElement = this.searchDropdown.nativeElement;
   }
 
   ngOnDestroy(): void {

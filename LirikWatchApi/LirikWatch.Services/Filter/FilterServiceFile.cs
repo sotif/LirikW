@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LirikWatch.Common.Configurations;
 using LirikWatch.Common.Dtos.YtDtos;
 using LirikWatch.Common.Records.VideoRecords;
 using LirikWatch.Yt;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace LirikWatch.Services.Filter
@@ -23,11 +25,11 @@ namespace LirikWatch.Services.Filter
 
         private const int _YT_TTL_MINS = 30;
 
-        public FilterServiceFile(ILogger<FilterServiceFile> log, IYtService ytService)
+        public FilterServiceFile(ILogger<FilterServiceFile> log, IYtService ytService, IOptions<FileConfigs> fileConfig)
         {
             _log = log;
             _ytService = ytService;
-            var metaData = Directory.GetFiles("F:/Coding/LirikWatch/ExampleData/TestData/MetaData");
+            var metaData = Directory.GetFiles(fileConfig.Value.Metadata);
             this.LoadAllMetadataIntoMemory(metaData);
         }
 
