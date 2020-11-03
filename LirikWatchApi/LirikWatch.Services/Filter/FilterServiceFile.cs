@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LirikWatch.Common.Dtos.YtDtos;
 using LirikWatch.Common.Records.VideoRecords;
+using LirikWatch.Yt;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -14,14 +16,35 @@ namespace LirikWatch.Services.Filter
         private readonly ILogger<FilterServiceFile> _log;
         private readonly List<VideoMetadata> _metaData = new List<VideoMetadata>();
         private readonly List<Games> _games = new List<Games>();
+        
+        private readonly IYtService _ytService;
+        private List<Item> _ytCache;
+        private DateTime _lastCacheRefresh = DateTime.UtcNow;
 
-        public FilterServiceFile(ILogger<FilterServiceFile> log)
+        private const int _YT_TTL_MINS = 30;
+
+        public FilterServiceFile(ILogger<FilterServiceFile> log, IYtService ytService)
         {
             _log = log;
+            _ytService = ytService;
             var metaData = Directory.GetFiles("F:/Coding/LirikWatch/ExampleData/TestData/MetaData");
             this.LoadAllMetadataIntoMemory(metaData);
         }
 
+        private async Task<bool> CheckVodOnYt(string vodId)
+        {
+            // Check if we have to make a request
+            if (_ytCache == null || DateTime.UtcNow.Subtract(_lastCacheRefresh).TotalMinutes > _YT_TTL_MINS)
+            {
+                var yt = await _ytService.GetYtComplete("UCpcmjxzCi4qcWT-bjvO8YTQ");
+                if (!yt) return false;
+
+                _ytCache = yt.Some();
+            }
+
+            return _ytCache.Any(x => x.Snippet.Title.Contains(vodId));
+        }
+        
         private void LoadAllMetadataIntoMemory(string[] files)
         {
             _log.LogInformation("Loading all metadata into memory for quick searching");
@@ -45,6 +68,11 @@ namespace LirikWatch.Services.Filter
             }            
         }
 
+        private string GetYoutubeId(string vodId)
+        {
+            return _ytCache.First(x => x.Snippet.Title.Contains(vodId)).Id.VideoId;
+        }
+
         public Task<List<Games>> FilterGamesByTitle(string search)
         {
             var filtered = this._games
@@ -57,7 +85,12 @@ namespace LirikWatch.Services.Filter
         {
             var filtered = this._metaData
                 .Where(x => x.Video.Title.Contains(search, StringComparison.InvariantCultureIgnoreCase))
-                .Select(x=> x.Video)
+                .Select(x =>
+                {
+                    var v = x.Video;
+                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
+                    return v;
+                })
                 .ToList();
 
             return Task.FromResult(filtered);
@@ -67,7 +100,11 @@ namespace LirikWatch.Services.Filter
         {
             var vods = this._metaData
                 .Where(x => x.Video.CreatedAt.Date.Equals(date.Date))
-                .Select(x => x.Video)
+                .Select(x => {
+                    var v = x.Video;
+                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
+                    return v;
+                })
                 .ToList();
 
             return Task.FromResult(vods);
@@ -78,7 +115,11 @@ namespace LirikWatch.Services.Filter
             var vods = this._metaData
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Take(amount)
-                .Select(x=> x.Video)
+                .Select(x=> {
+                    var v = x.Video;
+                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
+                    return v;
+                })
                 .ToList();
 
             return Task.FromResult(vods);
@@ -89,7 +130,11 @@ namespace LirikWatch.Services.Filter
             var vods = this._metaData
                 .Where(x => x.Games.Any(y => y.Id == gameId))
                 .OrderByDescending(x => x.Video.CreatedAt)
-                .Select(x => x.Video)
+                .Select(x => {
+                    var v = x.Video;
+                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
+                    return v;
+                })
                 .ToList();
 
             return Task.FromResult(vods);

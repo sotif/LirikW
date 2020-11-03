@@ -10,3 +10,5 @@ doc/
 
 LirikWatchApi/LirikWatch.WebApi/appsettings.Development.json
 LirikWatchApi/LirikWatch.WebApi/appsettings.json
+
+ExampleData/TestData

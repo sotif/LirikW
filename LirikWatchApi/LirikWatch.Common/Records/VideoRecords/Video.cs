@@ -15,5 +15,7 @@ namespace LirikWatch.Common.Records.VideoRecords
         public string Id { get; init; }
 
         public int LengthInSeconds { get; init; }
+
+        public string YtId { get; set; }
     }
 }

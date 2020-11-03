@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LirikWatch.Common\LirikWatch.Common.csproj" />
+      <ProjectReference Include="..\LirikWatch.Yt\LirikWatch.Yt.csproj" />
     </ItemGroup>
 
 </Project>
