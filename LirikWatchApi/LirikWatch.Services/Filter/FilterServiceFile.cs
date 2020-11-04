@@ -40,7 +40,8 @@ namespace LirikWatch.Services.Filter
             {
                 var yt = await _ytService.GetYtComplete("UCpcmjxzCi4qcWT-bjvO8YTQ");
                 if (!yt) return false;
-
+                
+                _lastCacheRefresh = DateTime.UtcNow;                
                 _ytCache = yt.Some();
             }
 
