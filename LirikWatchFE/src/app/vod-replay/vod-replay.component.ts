@@ -4,7 +4,7 @@ import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
-import {YtService} from './services/yt.service';
+import {VodService} from './services/vod.service';
 
 @Component({
   selector: 'app-vod-replay',
@@ -37,7 +37,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private chatService: ChatService,
-    private ytService: YtService,
+    private ytService: VodService,
   ) { }
 
   ngOnInit(): void {

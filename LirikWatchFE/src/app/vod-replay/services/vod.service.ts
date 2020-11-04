@@ -7,7 +7,7 @@ import {YtId} from '../models/video';
 @Injectable({
   providedIn: 'root'
 })
-export class YtService {
+export class VodService {
 
   private baseUrl = environment.apiUrl;
 
@@ -16,6 +16,6 @@ export class YtService {
   ) { }
 
   public getYtId(vodId: number): Observable<YtId> {
-    return this.http.get<YtId>(this.baseUrl + 'video/' + vodId.toString());
+    return this.http.get<YtId>(this.baseUrl + 'video/' + vodId.toString() + '/ytid');
   }
 }

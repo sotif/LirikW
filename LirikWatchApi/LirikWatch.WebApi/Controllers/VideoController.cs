@@ -16,8 +16,10 @@ namespace LirikWatch.WebApi.Controllers
         {
             _ytService = ytService;
         }
-
+        
         [HttpGet("{vodId}")]
+
+        [HttpGet("{vodId}/ytid")]
         public async Task<ActionResult<YtId>> GetYtId(string vodId)
         {
             var yt = await _ytService.GetYtComplete("UCpcmjxzCi4qcWT-bjvO8YTQ");
