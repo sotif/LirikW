@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, V
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
-import {FilterResult, Game, Video} from './models/filters';
+import {FilterResult, Game, Video} from '../shared/models/filters';
 
 @Component({
   selector: 'app-home',

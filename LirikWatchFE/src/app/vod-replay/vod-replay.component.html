@@ -19,6 +19,15 @@
     <div class="chat">
       <div class="chat-header">
         <span>Vod Chat Replay</span>
+        <i class="pi pi-list category-button"></i>
+        <div class="category-dropdown">
+          <div class="category-dropdown-header">
+            <p>Chapter Select</p>
+          </div>
+          <div class="category-dropdown-content custom-scrollbar">
+            <app-filter-game *ngFor="let game of vodMetadata.games"></app-filter-game>
+          </div>
+        </div>
       </div>
       <div class="message-list custom-scrollbar" #messageList>
         <div class="message" *ngFor="let msg of this.viewChat" #messages>

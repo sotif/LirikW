@@ -5,6 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
 import {VodService} from './services/vod.service';
+import {VodMetadata} from '../shared/models/video';
 
 @Component({
   selector: 'app-vod-replay',
@@ -13,7 +14,9 @@ import {VodService} from './services/vod.service';
 })
 export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
-  public ytVideoId;
+  public ytVideoId: string;
+  public vodMetadata: VodMetadata;
+
   @ViewChild('player') player: any;
 
   @ViewChild('messageList', {static: false}) messageList: ElementRef;
@@ -37,7 +40,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private chatService: ChatService,
-    private ytService: VodService,
+    private vodService: VodService,
   ) { }
 
   ngOnInit(): void {
@@ -55,10 +58,11 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
 
-        // Get yt vod id
-        this.ytService.getYtId(this.vodId)
-          .subscribe((id) => {
-            this.ytVideoId = id.id;
+        // Get vod date
+        this.vodService.getVodData(this.vodId)
+          .subscribe((data) => {
+            this.ytVideoId = data.video.ytId;
+            this.vodMetadata = data;
 
             this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
 
