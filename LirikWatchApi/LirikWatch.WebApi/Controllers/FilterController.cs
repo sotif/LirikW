@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LirikWatch.Common.Dtos.FilterDtos;
 using LirikWatch.Common.Records.VideoRecords;
 using LirikWatch.Services.Filter;
-using LirikWatch.WebApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LirikWatch.WebApi.Controllers

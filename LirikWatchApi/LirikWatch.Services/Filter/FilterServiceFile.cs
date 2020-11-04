@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ArgonautCore.Lw;
 using LirikWatch.Common.Configurations;
 using LirikWatch.Common.Dtos.YtDtos;
 using LirikWatch.Common.Records.VideoRecords;
@@ -142,6 +143,19 @@ namespace LirikWatch.Services.Filter
                 .ToList();
 
             return Task.FromResult(vods);
+        }
+
+        public Task<Option<VideoMetadata>> GetVodMetadata(string vodId)
+        {
+            var vod = this._metaData
+                .Where(x => this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
+                .FirstOrDefault(x => x.Video.Id.TrimStart('v') == vodId);
+
+            if (vod == null)
+                return Task.FromResult(Option.None<VideoMetadata>());
+
+            vod.Video.YtId = this.GetYoutubeId(vod.Video.Id.TrimStart('v'));
+            return Task.FromResult(new Option<VideoMetadata>(vod));
         }
     }
 }

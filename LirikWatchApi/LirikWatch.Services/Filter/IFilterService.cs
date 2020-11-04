@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ArgonautCore.Lw;
 using LirikWatch.Common.Records.VideoRecords;
 
 namespace LirikWatch.Services.Filter
@@ -13,5 +14,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> LatestVods(int amount);
 
         public Task<List<Video>> DeepFilterByGame(string gameId);
+
+        public Task<Option<VideoMetadata>> GetVodMetadata(string vodId);
     }
 }

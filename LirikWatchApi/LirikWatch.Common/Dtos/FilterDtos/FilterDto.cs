@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LirikWatch.Common.Records.VideoRecords;
 
-namespace LirikWatch.WebApi.Dtos
+namespace LirikWatch.Common.Dtos.FilterDtos
 {
     public class FilterDto
     {
