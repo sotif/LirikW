@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using LirikWatch.Common.Dtos.FilterDtos;
 using LirikWatch.Common.Records.VideoRecords;
@@ -28,7 +29,9 @@ namespace LirikWatch.WebApi.Controllers
             var titleTask = _filterService.FilterVodsByTitle(search);
             var gameTask = _filterService.FilterGamesByTitle(search);
             Task<List<Video>> dateTask = Task.FromResult<List<Video>>(null);
-            if (DateTime.TryParse(search, out var date))
+            // This is universal datetime parsing using American style MM dd yyyy since Lirik does live in the US.
+            // This will parse a number of different dates. Like 11.2.20, 11 2 20, 11-02-20 etc. Even without a specified year!
+            if (DateTime.TryParse(search, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var date))
                 dateTask = _filterService.FilterByDate(date);
 
             Task.WaitAll(titleTask, gameTask, dateTask);
