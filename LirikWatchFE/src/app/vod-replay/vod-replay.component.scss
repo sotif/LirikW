@@ -48,7 +48,8 @@
 
         .category-dropdown {
           width: 90%;
-          height: 250px;
+          min-height: 200px;
+          max-height: 300px;
 
           background: $background-color;
           border-radius: 15px;
@@ -59,9 +60,9 @@
           top: 55px;
           right: 15px;
 
-          -webkit-box-shadow: 0px 0px 40px 0 rgba(0,0,0,1);
-          -moz-box-shadow: 0px 0px 40px 0 rgba(0,0,0,1);
-          box-shadow: 0px 0px 40px 0 rgba(0,0,0,1);
+          -webkit-box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
+          -moz-box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
+          box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
 
           .category-dropdown-header {
             border-radius: 15px 15px 0 0;
