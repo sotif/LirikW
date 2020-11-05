@@ -61,7 +61,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           (filter) => {
             this.loading = false;
             this.filterResult = filter;
-            console.log(this.hasAnyResult());
           },
           err => {
             // TODO PROPER ERROR
