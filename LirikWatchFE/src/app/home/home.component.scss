@@ -216,8 +216,10 @@
     .filter-wrap {
       flex: 1 0 auto;
       order: 0;
-      width: 21rem;
-      max-width: 21rem;
+      //width: 21rem;
+      //max-width: 21rem;
+      width: 20%;
+      max-width: 20%;
       padding: 0 $xs-size;
       margin-bottom: $s-size;
     }
