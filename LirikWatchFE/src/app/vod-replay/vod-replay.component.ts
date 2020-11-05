@@ -101,6 +101,12 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.scrollMessageList = this.messageList.nativeElement;
+    this.messages.changes.subscribe(_ => this.onMessageListChanged());
+    this.chapterSelectNative = this.chapterSelectView.nativeElement;
+  }
+
   public onReady(e: YT.PlayerEvent): void {
     this.playerReady = true;
     this.player.playVideo();
@@ -126,6 +132,11 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
         this.viewChapterSelect = true;
       });
     }
+  }
+
+  public jumpToChapter(game: GamesMeta): void {
+    this.player._player.seekTo(game.positionMilliseconds / 1000);
+    this.viewChapterSelect = false;
   }
 
   private clearChat(): void {
@@ -212,12 +223,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next();
   }
 
-  ngAfterViewInit(): void {
-    this.scrollMessageList = this.messageList.nativeElement;
-    this.messages.changes.subscribe(_ => this.onMessageListChanged());
-    this.chapterSelectNative = this.chapterSelectView.nativeElement;
-  }
-
   private onMessageListChanged(): void {
     this.scrollToBottom();
   }
@@ -229,4 +234,5 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       behavior: 'auto'
     });
   }
+
 }

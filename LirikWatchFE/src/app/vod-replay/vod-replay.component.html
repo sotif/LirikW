@@ -26,7 +26,11 @@
           </div>
           <div class="category-dropdown-content custom-scrollbar">
             <div *ngIf="vodMetadata && vodMetadata.games?.length != 0">
-              <app-filter-game *ngFor="let game of vodMetadata?.games" [game]="convertMetaToGame(game)" [small]="true">
+              <app-filter-game
+                *ngFor="let game of vodMetadata?.games"
+                [game]="convertMetaToGame(game)"
+                [small]="true"
+                (click)="jumpToChapter(game)">
               </app-filter-game>
             </div>
           </div>
