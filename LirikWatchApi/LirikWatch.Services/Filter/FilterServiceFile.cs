@@ -114,16 +114,16 @@ namespace LirikWatch.Services.Filter
             return Task.FromResult(vods);
         }
 
-        public Task<List<Video>> LatestVods(int amount)
+        public Task<List<VideoMetadata>> LatestVods(int amount)
         {
             var vods = this._metaData
                 .Where(x=> this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Take(amount)
-                .Select(x=> {
-                    var v = x.Video;
-                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
-                    return v;
+                .Select(x =>
+                {
+                    x.Video.YtId = this.GetYoutubeId(x.Video.Id.TrimStart('v'));
+                    return x;
                 })
                 .ToList();
 

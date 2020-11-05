@@ -45,7 +45,7 @@ namespace LirikWatch.WebApi.Controllers
         }
 
         [HttpGet("latest")]
-        public async Task<ActionResult<List<Video>>> GetLatestVods([FromQuery] int amount = 8)
+        public async Task<ActionResult<List<VideoMetadata>>> GetLatestVods([FromQuery] int amount = 8)
         {
             if (amount < 1)
                 return BadRequest("Amount must be greater than 0");

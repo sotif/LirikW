@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {FilterResult, Video} from '../../shared/models/filters';
+import {VodMetadata} from '../../shared/models/video';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,11 @@ export class FilterService {
     return this.http.get<FilterResult>(this.baseUrl + 'filter/', { params });
   }
 
-  public getLatestVods(amount: number): Observable<Video[]> {
+  public getLatestVods(amount: number): Observable<VodMetadata[]> {
     const params = new HttpParams()
       .set('amount', amount.toString());
 
-    return this.http.get<Video[]>(this.baseUrl + 'filter/latest', { params });
+    return this.http.get<VodMetadata[]>(this.baseUrl + 'filter/latest', { params });
   }
 
   public getFilterByGame(gameId: string): Observable<Video[]> {

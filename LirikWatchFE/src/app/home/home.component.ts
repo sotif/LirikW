@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
 import {FilterResult, Game, Video} from '../shared/models/filters';
+import {VodMetadata} from '../shared/models/video';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   public filterResult: FilterResult;
   public loading = false;
 
-  public latestVods: Video[];
+  public latestVods: VodMetadata[];
 
   private dropDownElement: any;
 

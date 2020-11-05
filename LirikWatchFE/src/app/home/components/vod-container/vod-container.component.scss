@@ -1,0 +1,66 @@
+@import "src/shared/scss/settings";
+
+.vod-card {
+  width: 100%;
+  height: 240px;
+
+  display: flex;
+  flex-direction: column;
+
+  .thumbnail {
+    width: 100%;
+    height: fit-content;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .content {
+    .title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      p {
+        margin: 0;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+    .chapter-button-container {
+      width: 100%;
+      display: flex;
+      margin-top: 0.3rem;
+      z-index: 100;
+
+      .chapter-button {
+        padding: 0.3rem $xs-size;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        align-content: center;
+
+        background-color: $background-color;
+        border-radius: 10px;
+        z-index: 100;
+
+
+        &:hover {
+          cursor: pointer;
+          background-color: lighten($background-color, 2%);
+        }
+
+
+        span {
+          margin-left: $xs-size;
+        }
+
+      }
+    }
+  }
+
+}

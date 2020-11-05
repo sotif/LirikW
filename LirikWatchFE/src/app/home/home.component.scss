@@ -211,13 +211,15 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap !important;
+    margin-left: -$xs-size;
 
     .filter-wrap {
       flex: 1 0 auto;
       order: 0;
-      width: 35rem;
-      max-width: 35rem;
+      width: 21rem;
+      max-width: 21rem;
       padding: 0 $xs-size;
+      margin-bottom: $m-size;
     }
   }
 }
