@@ -54,6 +54,7 @@
     display: flex;
     margin-top: 0.3rem;
     z-index: 100;
+    position: relative;
 
     .chapter-button {
       padding: 0.3rem $xs-size;
@@ -78,6 +79,51 @@
         margin-left: $xs-size;
       }
 
+    }
+
+    .chapter-dropdown {
+      width: 100%;
+      min-height: 200px;
+      max-height: 300px;
+
+      background: #18181b;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      z-index: 10;
+      bottom: 45px;
+
+      -webkit-box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.5);
+      -moz-box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.5);
+      box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.5);
+
+      .chapter-dropdown-header {
+        border-radius: 10px 10px 0 0;
+        background-color: #18181b;
+        border-bottom: 2px solid white;
+        height: 30px;
+        width: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+
+        p {
+          margin: 0 5px;
+          font-size: $s-size;
+        }
+      }
+
+      .chapter-dropdown-content {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        padding: 0 5px;
+      }
     }
   }
 

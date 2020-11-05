@@ -9,10 +9,25 @@
   </div>
 
   <div class="chapter-button-container">
-    <div class="chapter-button">
+    <div class="chapter-button" (click)="toggleChapterView()">
 <!--        (click)="toggleChapterView()"-->
       <i class="pi pi-list category-button"></i>
       <span>Chapter List</span>
+    </div>
+    <div class="chapter-dropdown" [ngStyle]="{display: chapterViewVisible ? 'flex' : 'none'}" #chapterView>
+      <div class="chapter-dropdown-header">
+        <p>Chapter Select</p>
+      </div>
+      <div class="chapter-dropdown-content custom-scrollbar">
+        <div *ngIf="video?.games && video.games?.length != 0">
+          <app-filter-game
+            *ngFor="let game of video.games"
+            [game]="convertMetaToGame(game)"
+            [small]="true"
+            (click)="jumpToVodAndGame(game)">
+          </app-filter-game>
+        </div>
+      </div>
     </div>
   </div>
 
