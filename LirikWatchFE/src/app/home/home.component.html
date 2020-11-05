@@ -54,6 +54,8 @@
 
           <p-tabPanel header="Dates" *ngIf="filterResult?.filterDates && filterResult.filterDates.length != 0">
             <div class="filter-list custom-scrollbar">
+              <app-filter-video *ngFor="let video of filterResult.filterDates" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
+              </app-filter-video>
             </div>
           </p-tabPanel>
         </p-tabView>

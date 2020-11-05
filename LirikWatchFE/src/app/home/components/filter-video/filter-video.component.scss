@@ -36,6 +36,12 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+
+    p {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
 
   &:hover {
