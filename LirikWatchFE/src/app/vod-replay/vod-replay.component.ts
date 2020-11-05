@@ -42,6 +42,9 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private scrollMessageList: any;
   private chapterSelectNative: any;
 
+  private skipTo: number = undefined;
+  private ytPlayer: YT.Player;
+
   @HostListener('document:click', ['$event']) onClick(e: any): void {
     if (this.viewChapterSelect) {
       if (!this.chapterSelectNative.contains(e.target)) {
@@ -71,13 +74,16 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
 
-        // Get vod date
+        // Get vod data
         this.vodService.getVodData(this.vodId)
           .subscribe((data) => {
             this.ytVideoId = data.video.ytId;
             this.vodMetadata = data;
 
             this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
+
+            this.skipTo = this.activatedRoute.snapshot.queryParams.skipTo;
+
 
             // start fetch timer
             interval(500)
@@ -109,6 +115,10 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onReady(e: YT.PlayerEvent): void {
     this.playerReady = true;
+    this.ytPlayer = e.target;
+    if (this.skipTo) {
+      e.target.seekTo(this.skipTo, true);
+    }
     this.player.playVideo();
   }
 
@@ -135,7 +145,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public jumpToChapter(game: GamesMeta): void {
-    this.player._player.seekTo(game.positionMilliseconds / 1000);
+    this.player._player.seekTo(game.positionMilliseconds / 1000, true);
     this.viewChapterSelect = false;
   }
 

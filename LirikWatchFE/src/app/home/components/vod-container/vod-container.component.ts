@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {convertGameMetaToGame, GamesMeta, VodMetadata} from '../../../shared/models/video';
 import {Game, getYtThumbnail} from '../../../shared/models/filters';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-vod-container',
   templateUrl: './vod-container.component.html',
   styleUrls: ['./vod-container.component.scss']
 })
-export class VodContainerComponent implements OnInit, AfterViewInit {
+export class VodContainerComponent implements AfterViewInit {
 
   @Input() video: VodMetadata;
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -25,10 +26,9 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngAfterViewInit(): void {
     this.chapterViewNative = this.chapterView.nativeElement;
@@ -55,6 +55,10 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
   }
 
   public jumpToVodAndGame(game: GamesMeta): void {
-
+    this.router.navigate(['/vod', this.video.video.id.replace('v', '')],{
+      queryParams: {
+        skipTo: game.positionMilliseconds / 1000,
+      }
+    });
   }
 }
