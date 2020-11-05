@@ -216,12 +216,26 @@
     .filter-wrap {
       flex: 1 0 auto;
       order: 0;
-      //width: 21rem;
-      //max-width: 21rem;
-      width: 20%;
-      max-width: 20%;
+      width: 50%;
+      max-width: 50%;
+
       padding: 0 $xs-size;
       margin-bottom: $s-size;
+
+      @media (min-width: $desktop-breakpoint-s) {
+        width: 33%;
+        max-width: 33%;
+      }
+
+      @media (min-width: $desktop-breakpoint-m) {
+        width: 25%;
+        max-width: 25%;
+      }
+
+      @media (min-width: $desktop-breakpoint-l) {
+        width: 20%;
+        max-width: 20%;
+      }
     }
   }
 }
