@@ -10,5 +10,6 @@ export class FilterGameComponent {
 
   @Input() game: Game;
   @Input() styling: string;
+  @Input() small = false;
 
 }

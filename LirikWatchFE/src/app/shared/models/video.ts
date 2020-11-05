@@ -1,4 +1,4 @@
-import {Video} from './filters';
+import {Game, Video} from './filters';
 
 export interface YtId {
   id: string;
@@ -16,3 +16,11 @@ export interface GamesMeta {
   title: string;
   boxArtUrl: string;
 }
+
+const convertGameMetaToGame = (game: GamesMeta): Game => ({
+  id: game.id,
+  title: game.title,
+  boxArtUrl: game.boxArtUrl
+});
+
+export {convertGameMetaToGame};

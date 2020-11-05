@@ -32,6 +32,10 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   &:hover {

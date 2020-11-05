@@ -1,11 +1,12 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subject, interval} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
 import {VodService} from './services/vod.service';
-import {VodMetadata} from '../shared/models/video';
+import {VodMetadata, convertGameMetaToGame, GamesMeta} from '../shared/models/video';
+import {Game} from '../shared/models/filters';
 
 @Component({
   selector: 'app-vod-replay',
@@ -16,6 +17,9 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
   public ytVideoId: string;
   public vodMetadata: VodMetadata;
+
+  public viewChapterSelect = false;
+  @ViewChild('chapterSelect', {static: false}) chapterSelectView: ElementRef;
 
   @ViewChild('player') player: any;
 
@@ -36,6 +40,15 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$  = new Subject();
   private recChat: Comment[] = [];
   private scrollMessageList: any;
+  private chapterSelectNative: any;
+
+  @HostListener('document:click', ['$event']) onClick(e: any): void {
+    if (this.viewChapterSelect) {
+      if (!this.chapterSelectNative.contains(e.target)) {
+        this.viewChapterSelect = false;
+      }
+    }
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -96,6 +109,22 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   public onStateChange(e: YT.OnStateChangeEvent): void {
     if (e.data === 0) {
       this.player.playVideo();
+    }
+  }
+
+  public convertMetaToGame(meta: GamesMeta): Game {
+    return convertGameMetaToGame(meta);
+  }
+
+  public toggleChapterView(): void {
+    if (this.viewChapterSelect) {
+      this.viewChapterSelect = false;
+    } else {
+      // This is such that the document click event listener can run and in the next tick
+      // we will execute this statement. Otherwise they compete and might turn eachother off.
+      setTimeout(() => {
+        this.viewChapterSelect = true;
+      });
     }
   }
 
@@ -186,6 +215,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.scrollMessageList = this.messageList.nativeElement;
     this.messages.changes.subscribe(_ => this.onMessageListChanged());
+    this.chapterSelectNative = this.chapterSelectView.nativeElement;
   }
 
   private onMessageListChanged(): void {

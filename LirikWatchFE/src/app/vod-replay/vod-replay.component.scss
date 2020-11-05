@@ -47,7 +47,7 @@
         }
 
         .category-dropdown {
-          width: 95%;
+          width: 90%;
           height: 250px;
 
           background: $background-color;
@@ -83,6 +83,11 @@
             width: 100%;
             height: 100%;
             overflow-y: auto;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            padding: 0 5px;
           }
         }
       }
