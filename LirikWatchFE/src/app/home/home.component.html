@@ -78,8 +78,8 @@
     <div class="vod-results" *ngIf="latestVods">
       <h1>Latest Vods</h1>
       <div class="vod-list">
-        <div class="filter-wrap" *ngFor="let video of latestVods" [routerLink]="['/vod', video.video.id.replace('v', '')]">
-          <app-vod-container [video]="video"></app-vod-container>
+        <div class="filter-wrap" *ngFor="let video of latestVods">
+          <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.id)"></app-vod-container>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {VodMetadata} from '../../../shared/models/video';
 import {getYtThumbnail} from '../../../shared/models/filters';
 
@@ -10,6 +10,8 @@ import {getYtThumbnail} from '../../../shared/models/filters';
 export class VodContainerComponent implements OnInit {
 
   @Input() video: VodMetadata;
+
+  @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 

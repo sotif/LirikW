@@ -4,6 +4,7 @@ import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
 import {FilterResult, Game, Video} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(
-    private filterService: FilterService
+    private filterService: FilterService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -113,5 +115,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         // TODO PROPER ERROR HANDLING
         console.error(err);
       });
+  }
+
+  public onVodClick(vodId: string): void {
+    this.router.navigate(['/vod', vodId.replace('v', '')]);
   }
 }

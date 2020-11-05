@@ -1,17 +1,18 @@
 <div class="vod-card">
-  <div class="thumbnail">
-    <img src="{{GetYtThumb()}}" alt="YtThumb">
-  </div>
-  <div class="content">
+  <div class="card-content">
+    <div class="thumbnail">
+        <img src="{{GetYtThumb()}}" alt="YtThumb">
+    </div>
     <div class="title">
       <p>{{video.video.title}}</p>
     </div>
-    <div class="chapter-button-container">
-      <div class="chapter-button">
+  </div>
+
+  <div class="chapter-button-container">
+    <div class="chapter-button">
 <!--        (click)="toggleChapterView()"-->
-        <i class="pi pi-list category-button"></i>
-        <span>Chapter List</span>
-      </div>
+      <i class="pi pi-list category-button"></i>
+      <span>Chapter List</span>
     </div>
   </div>
 
