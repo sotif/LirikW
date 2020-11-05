@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   public searchString: string;
   public searchObservable: Subject<string> = new Subject<string>();
 
-  public searchResults: Video[];
+  public searchResults: VodMetadata[];
   public filterResult: FilterResult;
   public loading = false;
 

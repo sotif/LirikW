@@ -55,7 +55,7 @@ namespace LirikWatch.WebApi.Controllers
         }
 
         [HttpGet("game")]
-        public async Task<ActionResult<List<Video>>> GetVodsByGame([FromQuery] string gameId)
+        public async Task<ActionResult<List<VideoMetadata>>> GetVodsByGame([FromQuery] string gameId)
         {
             if (string.IsNullOrWhiteSpace(gameId))
                 return BadRequest("Please specify a gameId");

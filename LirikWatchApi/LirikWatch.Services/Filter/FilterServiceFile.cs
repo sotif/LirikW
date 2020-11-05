@@ -130,15 +130,14 @@ namespace LirikWatch.Services.Filter
             return Task.FromResult(vods);
         }
 
-        public Task<List<Video>> DeepFilterByGame(string gameId)
+        public Task<List<VideoMetadata>> DeepFilterByGame(string gameId)
         {
             var vods = this._metaData
                 .Where(x => x.Games.Any(y => y.Id == gameId) && this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Select(x => {
-                    var v = x.Video;
-                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
-                    return v;
+                    x.Video.YtId = this.GetYoutubeId(x.Video.Id.TrimStart('v'));
+                    return x;
                 })
                 .ToList();
 

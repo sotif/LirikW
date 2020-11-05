@@ -68,8 +68,8 @@
     <div class="vod-results" *ngIf="searchResults">
       <h1>Search Results</h1>
       <div class="vod-list">
-        <div class="filter-wrap" *ngFor="let video of searchResults" [routerLink]="['/vod', video.id.replace('v', '')]">
-          <app-filter-video [video]="video"></app-filter-video>
+        <div class="filter-wrap" *ngFor="let video of searchResults">
+          <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.id)"></app-vod-container>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ namespace LirikWatch.Services.Filter
         public Task<List<Video>> FilterByDate(DateTime date);
         public Task<List<VideoMetadata>> LatestVods(int amount);
 
-        public Task<List<Video>> DeepFilterByGame(string gameId);
+        public Task<List<VideoMetadata>> DeepFilterByGame(string gameId);
 
         public Task<Option<VideoMetadata>> GetVodMetadata(string vodId);
     }

@@ -29,11 +29,11 @@ export class FilterService {
     return this.http.get<VodMetadata[]>(this.baseUrl + 'filter/latest', { params });
   }
 
-  public getFilterByGame(gameId: string): Observable<Video[]> {
+  public getFilterByGame(gameId: string): Observable<VodMetadata[]> {
     const params = new HttpParams()
       .set('gameId', gameId);
 
-    return this.http.get<Video[]>(this.baseUrl + 'filter/game', { params });
+    return this.http.get<VodMetadata[]>(this.baseUrl + 'filter/game', { params });
   }
 
 }
