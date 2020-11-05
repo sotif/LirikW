@@ -28,16 +28,15 @@
       .chat-header {
         position: relative;
         height: 50px;
+        min-height: 50px;
         border-bottom: 2px solid #4a4a5f;
         display: flex;
+        background-color: #1e1e2b;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         font-size: 1.4rem;
-
         padding: 0 $m-size;
-
-        background-color: #1e1e2b;
 
         .category-button {
           &:hover {
@@ -45,52 +44,50 @@
             cursor: pointer;
           }
         }
+      }
 
-        .category-dropdown {
-          width: 90%;
-          min-height: 200px;
-          max-height: 300px;
+      .category-dropdown {
+        transition: max-height 0.2s ease-in-out, opacity 0.2s ease-out;
+        width: 100%;
+        background-color: #18181b;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
 
-          background: $background-color;
-          border-radius: 15px;
-          display: flex;
-          flex-direction: column;
-          position: absolute;
-          z-index: 10;
-          top: 55px;
-          right: 40px;
+        .category-dropdown-header {
+          height: 30px;
+          width: 100%;
+          align-content: center;
+          align-items: center;
 
-          -webkit-box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
-          -moz-box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
-          box-shadow: 0px 0px 30px 10px rgba(0,0,0,1);
-
-          .category-dropdown-header {
-            border-radius: 15px 15px 0 0;
-            background-color: #1e1e2b;
-            border-bottom: 2px solid #4a4a5f;
-            height: 30px;
-            width: 100%;
-            display: flex;
-            align-content: center;
-            align-items: center;
-
-            p {
-              margin: 0 $s-size;
-              font-size: $s-size;
-            }
-          }
-
-          .category-dropdown-content {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            padding: 0 5px;
+          p {
+            margin: 0 5px;
+            font-size: $s-size;
           }
         }
+
+        .category-dropdown-content {
+          width: 100%;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          padding: 0 5px;
+        }
+      }
+
+      .category-dropdown.active {
+        opacity: 1;
+        height: auto;
+        max-height: 300px;
+        margin-bottom: 5px;
+        border-bottom: solid 2px white;
       }
 
       .message-list {
