@@ -21,11 +21,6 @@
       width: 100%;
       height: fit-content;
 
-      &:hover {
-        transition: all .1s;
-        //background-color: $lirik-blue;
-      }
-
       img {
         &:hover {
           transform: translate3d(.6rem, -0.6rem, 0);
