@@ -198,11 +198,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateChat(): void {
-    while (true) {
-      if (this.recChat.length === 0) {
-        return;
-      }
-
+    while (this.recChat.length !== 0) {
       const top = this.recChat[0];
       if (top.contentOffsetSeconds > this.player._player.getCurrentTime()) {
         return;
