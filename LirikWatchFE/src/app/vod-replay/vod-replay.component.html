@@ -18,11 +18,12 @@
     </div>
     <!--Chat-->
     <div class="chat">
+<!--      HEADER-->
       <div class="chat-header">
           <span>Vod Chat Replay</span>
           <i class="pi pi-list category-button" (click)="toggleChapterView()"></i>
       </div>
-<!--      <div class="category-dropdown" [ngStyle]="{display: !viewChapterSelect ? 'flex' : 'none'}" #chapterSelect>-->
+
       <div
         class="category-dropdown"
         [ngClass]="{'active': viewChapterSelect}"
