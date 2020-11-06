@@ -7,6 +7,7 @@ import {Comment} from './models/chat';
 import {VodService} from './services/vod.service';
 import {VodMetadata, convertGameMetaToGame, GamesMeta} from '../shared/models/video';
 import {Game} from '../shared/models/filters';
+import {EmoteService} from './services/emote.service';
 
 @Component({
   selector: 'app-vod-replay',
@@ -58,6 +59,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private chatService: ChatService,
     private vodService: VodService,
+    private emoteService: EmoteService,
   ) { }
 
   ngOnInit(): void {
@@ -224,6 +226,9 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // Else we pop and keep going
       this.recChat.shift();
+
+      // Before pushing edit the emotes into the message
+      top.messageContent.body = this.emoteService.formatCompleteMessage(top.messageContent.body, top.messageContent.emotes);
       this.viewChat.push(top);
 
       // Check viewChat size to reduce ram usage and lag

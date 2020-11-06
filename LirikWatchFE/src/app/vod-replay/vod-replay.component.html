@@ -40,9 +40,11 @@
           </div>
         </div>
       </div>
+
+<!--      CHAT-->
       <div class="message-list custom-scrollbar" #messageList>
         <div class="message" *ngFor="let msg of this.viewChat" #messages>
-          <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: {{msg.messageContent.body}}
+          <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: <span class="message-content" [innerHTML]="msg.messageContent.body"></span>
         </div>
       </div>
     </div>

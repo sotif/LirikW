@@ -105,14 +105,33 @@
           margin: 0 0 0.5rem 0;
           word-break: break-word;
           overflow-wrap: break-word;
+          font-size: 13px;
 
           .message_autor {
             font-weight: bold;
+          }
+
+          .message-content {
+            img {
+              vertical-align: middle;
+              display: inline-block;
+              position: relative;
+              margin: -.5rem 0;
+            }
           }
         }
       }
     }
   }
+}
 
+:host ::ng-deep .message > .message-content > .emote-image {
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  margin: -.5rem 0;
+}
 
+.emote-image {
+  vertical-align: middle;
 }

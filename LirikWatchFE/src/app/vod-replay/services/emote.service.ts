@@ -43,13 +43,16 @@ export class EmoteService {
   public formatCompleteMessage(msg: string, ttvEms: ttvEmote[]): string {
     // Adding all the ttv emotes to our global emote map before sending it further
     // That way we dont have to finess around the datastructure and can just brute force it
-    ttvEms.forEach(em => {
-      const st = msg.substring(em.begin, em.end);
-      if (!this.emoteMap.has(st)) {
-        // Add it to the global map
-        this.emoteMap.set(st, this.getTtvStandardEmoteUrl(em.id));
-      }
-    });
+    if (ttvEms != null) {
+      ttvEms.forEach(em => {
+        const st = msg.substring(em.begin, em.end + 1);
+        console.log('got ttv emote in ', msg, ' cut as ', st, '. added with ', this.getTtvStandardEmoteUrl(em.id));
+        if (!this.emoteMap.has(st)) {
+          // Add it to the global map
+          this.emoteMap.set(st, this.getTtvStandardEmoteUrl(em.id));
+        }
+      });
+    }
 
     // Now send it of to be formatted
     return this.formatMessageWithEmotes(msg);
