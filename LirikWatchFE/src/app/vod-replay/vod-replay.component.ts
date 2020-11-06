@@ -32,6 +32,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private playerReady = false;
   private lastCheckTime = 0;
   private lastTime = 0;
+  private lastEndTime = 0;
 
   private readonly FETCH_INTERVAL = 7;
   private readonly CHAT_OFFSET_SIZE = 10;
@@ -196,10 +197,15 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       return; // Paused or not enough time passed
     }
 
-    this.lastCheckTime = time;
+    this.lastCheckTime = this.lastEndTime;
+    if (this.lastEndTime === 0) {
+      this.lastCheckTime = time;
+    }
+
+    this.lastEndTime = this.lastCheckTime + this.CHAT_OFFSET_SIZE;
 
     // Make call to backend
-    this.chatService.getChatBatch(this.vodId, this.lastCheckTime, this.lastCheckTime + this.CHAT_OFFSET_SIZE)
+    this.chatService.getChatBatch(this.vodId, this.lastCheckTime, this.lastEndTime)
       .subscribe((chat) => {
         this.recChat = this.recChat.concat(chat);
       }, err => {
