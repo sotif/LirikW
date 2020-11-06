@@ -5,7 +5,7 @@
   width: 100%;
 
   .vod-chat {
-    height: calc(100vh - 40px);
+    height: calc(100vh - 45px);
     display: flex;
     flex-direction: row;
     overflow-y: hidden;
@@ -17,7 +17,7 @@
 
     .chat {
       height: 100%;
-      width: 21rem;
+      width: 24rem;
 
       display: flex;
       flex-direction: column;

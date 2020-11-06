@@ -1,13 +1,17 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Subject, interval} from 'rxjs';
+import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
 import {VodService} from './services/vod.service';
-import {VodMetadata, convertGameMetaToGame, GamesMeta} from '../shared/models/video';
+import {convertGameMetaToGame, GamesMeta, VodMetadata} from '../shared/models/video';
 import {Game} from '../shared/models/filters';
 import {EmoteService} from './services/emote.service';
+import RelatedVideos = YT.RelatedVideos;
+import ModestBranding = YT.ModestBranding;
+import AutoPlay = YT.AutoPlay;
+import ShowInfo = YT.ShowInfo;
 
 @Component({
   selector: 'app-vod-replay',
@@ -18,6 +22,12 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
   public ytVideoId: string;
   public vodMetadata: VodMetadata;
+
+  public playerVars: YT.PlayerVars = {
+    rel: RelatedVideos.Hide,
+    modestbranding: ModestBranding.Modest,
+    autoplay: AutoPlay.AutoPlay,
+  };
 
   public viewChapterSelect = false;
   @ViewChild('chapterSelect', {static: false}) chapterSelectView: ElementRef;
