@@ -188,6 +188,8 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     let cleared = false;
     if (Math.abs(time - this.lastTime) > 2) {
       this.clearChat();
+      this.lastEndTime = 0;
+      this.lastCheckTime = time;
       cleared = true;
     }
 
