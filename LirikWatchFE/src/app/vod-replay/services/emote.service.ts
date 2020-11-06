@@ -46,7 +46,6 @@ export class EmoteService {
     if (ttvEms != null) {
       ttvEms.forEach(em => {
         const st = msg.substring(em.begin, em.end + 1);
-        console.log('got ttv emote in ', msg, ' cut as ', st, '. added with ', this.getTtvStandardEmoteUrl(em.id));
         if (!this.emoteMap.has(st)) {
           // Add it to the global map
           this.emoteMap.set(st, this.getTtvStandardEmoteUrl(em.id));

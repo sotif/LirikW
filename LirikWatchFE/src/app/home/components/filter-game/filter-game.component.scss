@@ -60,6 +60,13 @@
   overflow: hidden;
   white-space: nowrap;
 
+  p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+  }
+
   h3 {
     text-overflow: ellipsis;
     overflow: hidden;

@@ -5,7 +5,7 @@
   width: 100%;
 
   .vod-chat {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 40px);
     display: flex;
     flex-direction: row;
     overflow-y: hidden;
@@ -17,7 +17,7 @@
 
     .chat {
       height: 100%;
-      width: 28rem;
+      width: 21rem;
 
       display: flex;
       flex-direction: column;
@@ -105,7 +105,7 @@
           margin: 0 0 0.5rem 0;
           word-break: break-word;
           overflow-wrap: break-word;
-          font-size: 13px;
+          font-size: 15px;
 
           .message_autor {
             font-weight: bold;
