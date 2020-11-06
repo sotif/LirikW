@@ -14,10 +14,6 @@
       flex-direction: row;
     }
 
-    @media (orientation: portrait) and (max-width: $desktop-breakpoint-m) {
-
-    }
-
     @media (min-width: $desktop-breakpoint-m) {
       flex-direction: row;
     }
