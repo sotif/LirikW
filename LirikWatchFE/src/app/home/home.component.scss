@@ -47,11 +47,15 @@
       left: auto;
       background-image: url(../../assets/images/Logo.png);
       background-size: contain;
-      width: 80%;
+      width: 100%;
       height: 450px;
       opacity: 0.02;
       background-repeat: no-repeat;
       background-position: 50% 0;
+
+      @media (min-width: $desktop-breakpoint-xs) {
+        width: 80%;
+      }
 
       @media (min-width: $desktop-breakpoint-s) {
         width: 60%;
@@ -242,23 +246,33 @@
       margin-bottom: $s-size;
 
       @media (min-width: $desktop-breakpoint-xs) {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 3.8rem;
+      }
+
+      @media (min-width: ($desktop-breakpoint-xs + 5rem)) {
         width: 50%;
         max-width: 50%;
+        margin-bottom: $xs-size;
       }
 
       @media (min-width: $desktop-breakpoint-s) {
         width: 33%;
         max-width: 33%;
+        margin-bottom: 0;
       }
 
       @media (min-width: $desktop-breakpoint-m) {
         width: 25%;
         max-width: 25%;
+        margin-bottom: $s-size;
       }
 
       @media (min-width: $desktop-breakpoint-l) {
         width: 20%;
         max-width: 20%;
+        margin-bottom: $s-size;
       }
     }
   }
