@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
 import {FilterResult, Game, Video} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
@@ -51,11 +51,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.searchObservable.pipe(
       takeUntil(this.destroy$),
-      debounceTime(300),
+      debounceTime(500),
       distinctUntilChanged()
     ).subscribe(search => {
       this.searchString = search;
-      this.searching = !!this.searchString;
+      this.searching = !!this.searchString && this.searchString.length > 1;
       this.loading = this.searching;
 
       // Do the actual search
