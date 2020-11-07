@@ -16,6 +16,7 @@ import { LoadSpinnerComponent } from './shared/components/load-spinner/load-spin
 import { FilterVideoComponent } from './home/components/filter-video/filter-video.component';
 import { FilterGameComponent } from './home/components/filter-game/filter-game.component';
 import { VodContainerComponent } from './home/components/vod-container/vod-container.component';
+import { FooterComponent } from './home/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { VodContainerComponent } from './home/components/vod-container/vod-conta
     FilterVideoComponent,
     FilterGameComponent,
     VodContainerComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

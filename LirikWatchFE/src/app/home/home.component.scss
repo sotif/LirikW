@@ -2,64 +2,75 @@
 
 .home {
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
-  > .header {
+  .home-content {
     width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  > .header-container {
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 300px;
 
-    > .header-container {
-      width: 90%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 300px;
-
-      @media (min-width: $desktop-breakpoint-s) {
-        width: 60%;
-      }
-
-      > h1 {
-        font-size: $l-size;
-        margin: 0;
-
-        @media (min-width: $desktop-breakpoint-s) {
-          font-size: $xl-size;
-        }
-
-        > span {
-          color: $lirik-blue;
-        }
-      }
+    @media (min-width: $desktop-breakpoint-s) {
+      width: 60%;
     }
 
-    > .header-container:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: auto;
-      background-image: url(../../assets/images/Logo.png);
-      background-size: contain;
-      width: 100%;
-      height: 450px;
-      opacity: 0.02;
-      background-repeat: no-repeat;
-      background-position: 50% 0;
-
-      @media (min-width: $desktop-breakpoint-xs) {
-        width: 80%;
-      }
+    > h1 {
+      font-size: $l-size;
+      margin: 0;
 
       @media (min-width: $desktop-breakpoint-s) {
-        width: 60%;
+        font-size: $xl-size;
       }
+
+      > span {
+        color: $lirik-blue;
+      }
+    }
+  }
+
+  > .header-container:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: auto;
+    background-image: url(../../assets/images/Logo.png);
+    background-size: contain;
+    width: 100%;
+    height: 450px;
+    opacity: 0.02;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+
+    @media (min-width: $desktop-breakpoint-xs) {
+      width: 80%;
+    }
+
+    @media (min-width: $desktop-breakpoint-s) {
+      width: 60%;
     }
   }
 }
