@@ -12,8 +12,8 @@ export interface Game {
 
 export interface Video {
   title: string;
-  broadcastId: BigInteger;
-  url: string;
+  broadcastId?: BigInteger;
+  url?: string;
   createdAt: Date;
   id: string;
   lengthInSeconds: number;

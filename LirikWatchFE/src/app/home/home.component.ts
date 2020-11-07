@@ -2,9 +2,10 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, V
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
-import {FilterResult, Game, Video} from '../shared/models/filters';
+import {FilterResult, Game} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
 import {Router} from '@angular/router';
+import {vodMetaToInternal} from '../shared/models/vodFriends';
 
 @Component({
   selector: 'app-home',
@@ -51,11 +52,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.searchObservable.pipe(
       takeUntil(this.destroy$),
-      debounceTime(300),
+      debounceTime(500),
       distinctUntilChanged()
     ).subscribe(search => {
       this.searchString = search;
-      this.searching = !!this.searchString;
+      this.searching = !!this.searchString && this.searchString.length > 1;
       this.loading = this.searching;
 
       // Do the actual search
@@ -75,7 +76,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.filterService.getLatestVods(10)
       .subscribe((latest) => {
-        this.latestVods = latest;
+        if (!latest) {
+          return;
+        }
+        this.latestVods = latest.map(vodMetaToInternal);
       }, err => {
         // TODO proper ERROR
         console.error(err);
