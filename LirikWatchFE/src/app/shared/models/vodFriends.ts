@@ -24,7 +24,7 @@ export interface GameMeta {
 
 export interface VGame {
   name: string;
-  boxArtUtl: string;
+  boxArtUrl: string;
   id: number;
 }
 
@@ -42,7 +42,7 @@ const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
 const vGameToInternal = (g: GameMeta): GamesMeta => ({
   title: g.game.name,
   id: g.game.id.toString(),
-  boxArtUrl: g.game.boxArtUtl,
+  boxArtUrl: g.game.boxArtUrl,
   positionMilliseconds: g.positionMilliseconds,
   durationMilliseconds: g.durationMilliseconds
 });
