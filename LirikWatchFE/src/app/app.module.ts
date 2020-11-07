@@ -20,6 +20,7 @@ import { FooterComponent } from './home/components/footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { AuthComponent } from './login/components/auth/auth.component';
 import {JwtModule} from '@auth0/angular-jwt';
+import {environment} from '../environments/environment';
 
 export function tokenGetter(): string {
   return localStorage.getItem('api-token');
@@ -46,14 +47,14 @@ export function tokenGetter(): string {
     TabViewModule,
     YouTubePlayerModule,
     HttpClientModule,
-    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        allowedDomains: [ '*/api' ],
-        disallowedRoutes: [ '*/api/auth' ]
+        allowedDomains: environment.allowedDomains,
+        disallowedRoutes: environment.disallowedRoutes
       }
     }),
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

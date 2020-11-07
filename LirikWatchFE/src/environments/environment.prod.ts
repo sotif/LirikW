@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'api/'
+  apiUrl: 'api/',
+  allowedDomains: [ 'lirik.tv' ],
+  disallowedRoutes: [ 'lirik.tv/api/auth' ]
 };
