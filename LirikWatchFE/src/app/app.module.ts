@@ -18,6 +18,7 @@ import { FilterGameComponent } from './home/components/filter-game/filter-game.c
 import { VodContainerComponent } from './home/components/vod-container/vod-container.component';
 import { FooterComponent } from './home/components/footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { AuthComponent } from './login/components/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoginComponent } from './login/login.component';
     VodContainerComponent,
     FooterComponent,
     LoginComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,

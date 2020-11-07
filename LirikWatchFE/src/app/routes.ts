@@ -3,6 +3,8 @@ import {HomeComponent} from './home/home.component';
 import {VodReplayComponent} from './vod-replay/vod-replay.component';
 import {AuthGuard} from './shared/guards/auth.guard';
 import {LoginComponent} from './login/login.component';
+import {AuthComponent} from './login/components/auth/auth.component';
+import {NotAuthGuard} from './shared/guards/not-auth.guard';
 
 
 export const appRoutes: Routes = [
@@ -23,6 +25,14 @@ export const appRoutes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    canActivate: [NotAuthGuard],
+    runGuardsAndResolvers: 'always',
+    component: LoginComponent,
+    children: [
+      {
+        path: 'auth',
+        component: AuthComponent
+      }
+    ]
   }
 ];
