@@ -3,7 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthResponse, authToTwitchUser, TwitchUser} from '../models/auth';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable({
