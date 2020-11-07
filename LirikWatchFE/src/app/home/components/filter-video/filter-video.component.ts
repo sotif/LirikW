@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Video, getYtThumbnail} from '../../models/filters';
+import {Video, getYtThumbnail} from '../../../shared/models/filters';
 
 @Component({
   selector: 'app-filter-video',

@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import { LoadSpinnerComponent } from './shared/components/load-spinner/load-spinner.component';
 import { FilterVideoComponent } from './home/components/filter-video/filter-video.component';
 import { FilterGameComponent } from './home/components/filter-game/filter-game.component';
+import { VodContainerComponent } from './home/components/vod-container/vod-container.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FilterGameComponent } from './home/components/filter-game/filter-game.c
     LoadSpinnerComponent,
     FilterVideoComponent,
     FilterGameComponent,
+    VodContainerComponent,
   ],
   imports: [
     BrowserModule,

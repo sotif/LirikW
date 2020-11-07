@@ -10,7 +10,7 @@
           <div class="search-bar__padder">
 
             <!--            [(ngModel)]="youtubeUrl" (keydown.enter)="onYoutubeSearch()"-->
-            <input type="text" placeholder="Search Vod Titles or Games" [ngModel]="searchString" (ngModelChange)="searchChanged($event)">
+            <input type="text" placeholder="Search Vod Titles, Games or Dates (US format)" [ngModel]="searchString" (ngModelChange)="searchChanged($event)">
             <div class="search-bar__icon">
               <!--              <fa-icon [icon]="faSearch"></fa-icon>-->
               <i class="pi pi-search"></i>
@@ -54,6 +54,8 @@
 
           <p-tabPanel header="Dates" *ngIf="filterResult?.filterDates && filterResult.filterDates.length != 0">
             <div class="filter-list custom-scrollbar">
+              <app-filter-video *ngFor="let video of filterResult.filterDates" [video]="video" [routerLink]="['/vod', video.id.replace('v', '')]">
+              </app-filter-video>
             </div>
           </p-tabPanel>
         </p-tabView>
@@ -66,8 +68,8 @@
     <div class="vod-results" *ngIf="searchResults">
       <h1>Search Results</h1>
       <div class="vod-list">
-        <div class="filter-wrap" *ngFor="let video of searchResults" [routerLink]="['/vod', video.id.replace('v', '')]">
-          <app-filter-video [video]="video"></app-filter-video>
+        <div class="filter-wrap" *ngFor="let video of searchResults">
+          <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.id)"></app-vod-container>
         </div>
       </div>
     </div>
@@ -76,8 +78,8 @@
     <div class="vod-results" *ngIf="latestVods">
       <h1>Latest Vods</h1>
       <div class="vod-list">
-        <div class="filter-wrap" *ngFor="let video of latestVods" [routerLink]="['/vod', video.id.replace('v', '')]">
-          <app-filter-video [video]="video"></app-filter-video>
+        <div class="filter-wrap" *ngFor="let video of latestVods">
+          <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.id)"></app-vod-container>
         </div>
       </div>
     </div>

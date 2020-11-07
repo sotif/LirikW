@@ -9,7 +9,7 @@
   box-sizing: border-box;
 
 
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     max-width: 110rem;
   }
 }
@@ -62,7 +62,7 @@
   justify-content: space-between;
   margin-bottom: $s-size;
 
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     flex-direction: row;
   }
 }
@@ -91,63 +91,63 @@
 
 .split-between-10 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 10%;
   }
 }
 
 .split-between-20 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 20%;
   }
 }
 
 .split-between-30 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 30%;
   }
 }
 
 .split-between-40 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 40%;
   }
 }
 
 .split-between-50 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 50%;
   }
 }
 
 .split-between-60 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 60%;
   }
 }
 
 .split-between-70 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 70%;
   }
 }
 
 .split-between-80 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 80%;
   }
 }
 
 .split-between-90 {
   width: 100%;
-  @media (min-width: $desktop-breakpoint) {
+  @media (min-width: $desktop-breakpoint-s) {
     width: 90%;
   }
 }

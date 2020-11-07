@@ -2,7 +2,9 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, V
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {FilterService} from './services/filter.service';
-import {FilterResult, Game, Video} from './models/filters';
+import {FilterResult, Game, Video} from '../shared/models/filters';
+import {VodMetadata} from '../shared/models/video';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +17,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   public searchString: string;
   public searchObservable: Subject<string> = new Subject<string>();
 
-  public searchResults: Video[];
+  public searchResults: VodMetadata[];
   public filterResult: FilterResult;
   public loading = false;
 
-  public latestVods: Video[];
+  public latestVods: VodMetadata[];
 
   private dropDownElement: any;
 
@@ -42,7 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(
-    private filterService: FilterService
+    private filterService: FilterService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +64,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           (filter) => {
             this.loading = false;
             this.filterResult = filter;
-            console.log(this.hasAnyResult());
           },
           err => {
             // TODO PROPER ERROR
@@ -71,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     });
 
-    this.filterService.getLatestVods(8)
+    this.filterService.getLatestVods(10)
       .subscribe((latest) => {
         this.latestVods = latest;
       }, err => {
@@ -113,5 +115,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         // TODO PROPER ERROR HANDLING
         console.error(err);
       });
+  }
+
+  public onVodClick(vodId: string): void {
+    this.router.navigate(['/vod', vodId.replace('v', '')]);
   }
 }

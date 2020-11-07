@@ -9,6 +9,7 @@
         [videoId]="ytVideoId"
         (ready)="onReady($event)"
         (stateChange)="onStateChange($event)"
+        [playerVars]="playerVars"
         width="100%"
         height="100%"
       >
@@ -17,12 +18,35 @@
     </div>
     <!--Chat-->
     <div class="chat">
+<!--      HEADER-->
       <div class="chat-header">
-        <span>Vod Chat Replay</span>
+          <span>Vod Chat Replay</span>
+          <i class="pi pi-list category-button" (click)="toggleChapterView()"></i>
       </div>
+
+      <div
+        class="category-dropdown"
+        [ngClass]="{'active': viewChapterSelect}"
+        #chapterSelect>
+        <div class="category-dropdown-header">
+          <p>Chapter Select</p>
+        </div>
+        <div class="category-dropdown-content custom-scrollbar">
+          <div *ngIf="vodMetadata && vodMetadata.games?.length != 0">
+            <app-filter-game
+              *ngFor="let game of vodMetadata?.games"
+              [game]="convertMetaToGame(game)"
+              [small]="true"
+              (click)="jumpToChapter(game)">
+            </app-filter-game>
+          </div>
+        </div>
+      </div>
+
+<!--      CHAT-->
       <div class="message-list custom-scrollbar" #messageList>
         <div class="message" *ngFor="let msg of this.viewChat" #messages>
-          <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: {{msg.messageContent.body}}
+          <span class="message_autor" [style.color]="msg.messageContent.userColor">{{msg.commenter.displayName}}</span>: <span class="message-content" [innerHTML]="msg.messageContent.body"></span>
         </div>
       </div>
     </div>

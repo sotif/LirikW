@@ -1,9 +1,10 @@
-<div class="filter-card {{styling}}">
+<div [ngClass]="{'filter-card': !small, 'filter-card-small': small}" class="{{styling}}">
   <div class="box-art">
-    <img src="{{game.boxArtUrl.replace('40x53', '144x192')}}" alt="Box Art">
+    <img src="{{game.boxArtUrl ? game.boxArtUrl?.replace('40x53', '144x192') : 'https://i.imgur.com/TWV1Nx3.png'}}" alt="Box Art">
   </div>
   <div class="title">
-    <h3>{{game.title}}</h3>
+    <h3 *ngIf="!small">{{game.title}}</h3>
+    <p *ngIf="small">{{game.title}}</p>
   </div>
 </div>
 

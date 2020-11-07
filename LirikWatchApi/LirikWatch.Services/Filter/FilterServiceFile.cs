@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ArgonautCore.Lw;
 using LirikWatch.Common.Configurations;
 using LirikWatch.Common.Dtos.YtDtos;
 using LirikWatch.Common.Records.VideoRecords;
@@ -40,7 +41,8 @@ namespace LirikWatch.Services.Filter
             {
                 var yt = await _ytService.GetYtComplete("UCpcmjxzCi4qcWT-bjvO8YTQ");
                 if (!yt) return false;
-
+                
+                _lastCacheRefresh = DateTime.UtcNow;                
                 _ytCache = yt.Some();
             }
 
@@ -112,35 +114,47 @@ namespace LirikWatch.Services.Filter
             return Task.FromResult(vods);
         }
 
-        public Task<List<Video>> LatestVods(int amount)
+        public Task<List<VideoMetadata>> LatestVods(int amount)
         {
             var vods = this._metaData
                 .Where(x=> this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Take(amount)
-                .Select(x=> {
-                    var v = x.Video;
-                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
-                    return v;
+                .Select(x =>
+                {
+                    x.Video.YtId = this.GetYoutubeId(x.Video.Id.TrimStart('v'));
+                    return x;
                 })
                 .ToList();
 
             return Task.FromResult(vods);
         }
 
-        public Task<List<Video>> DeepFilterByGame(string gameId)
+        public Task<List<VideoMetadata>> DeepFilterByGame(string gameId)
         {
             var vods = this._metaData
                 .Where(x => x.Games.Any(y => y.Id == gameId) && this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
                 .OrderByDescending(x => x.Video.CreatedAt)
                 .Select(x => {
-                    var v = x.Video;
-                    v.YtId = this.GetYoutubeId(v.Id.TrimStart('v'));
-                    return v;
+                    x.Video.YtId = this.GetYoutubeId(x.Video.Id.TrimStart('v'));
+                    return x;
                 })
                 .ToList();
 
             return Task.FromResult(vods);
+        }
+
+        public Task<Option<VideoMetadata>> GetVodMetadata(string vodId)
+        {
+            var vod = this._metaData
+                .Where(x => this.CheckVodOnYt(x.Video.Id.TrimStart('v')).Result)
+                .FirstOrDefault(x => x.Video.Id.TrimStart('v') == vodId);
+
+            if (vod == null)
+                return Task.FromResult(Option.None<VideoMetadata>());
+
+            vod.Video.YtId = this.GetYoutubeId(vod.Video.Id.TrimStart('v'));
+            return Task.FromResult(new Option<VideoMetadata>(vod));
         }
     }
 }

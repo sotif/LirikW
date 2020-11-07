@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using LirikWatch.Common.Dtos.YtDtos;
+using LirikWatch.Common.Records.VideoRecords;
+using LirikWatch.Services.Filter;
 using LirikWatch.Yt;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +13,25 @@ namespace LirikWatch.WebApi.Controllers
     public class VideoController : ControllerBase
     {
         private readonly IYtService _ytService;
+        private readonly IFilterService _filterService;
 
-        public VideoController(IYtService ytService)
+        public VideoController(IYtService ytService, IFilterService filterService)
         {
             _ytService = ytService;
+            _filterService = filterService;
         }
 
         [HttpGet("{vodId}")]
+        public async Task<ActionResult<VideoMetadata>> GetVodMetadata(string vodId)
+        {
+            var vod = await _filterService.GetVodMetadata(vodId);
+            if (!vod)
+                return BadRequest("Invalid VodId or couldn't find YouTube video");
+
+            return Ok(vod.Some());
+        }
+
+        [HttpGet("{vodId}/ytid")]
         public async Task<ActionResult<YtId>> GetYtId(string vodId)
         {
             var yt = await _ytService.GetYtComplete("UCpcmjxzCi4qcWT-bjvO8YTQ");

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Game} from '../../models/filters';
+import {Game} from '../../../shared/models/filters';
 
 @Component({
   selector: 'app-filter-game',
@@ -10,5 +10,6 @@ export class FilterGameComponent {
 
   @Input() game: Game;
   @Input() styling: string;
+  @Input() small = false;
 
 }

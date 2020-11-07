@@ -5,10 +5,18 @@
   width: 100%;
 
   .vod-chat {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 45px);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     overflow-y: hidden;
+
+    @media (orientation: landscape) and (max-width: $desktop-breakpoint-m) {
+      flex-direction: row;
+    }
+
+    @media (min-width: $desktop-breakpoint-m) {
+      flex-direction: row;
+    }
 
     .vod-player {
       width: 100%;
@@ -16,8 +24,23 @@
     }
 
     .chat {
-      height: 100%;
-      width: 28rem;
+      width: 100%;
+      max-height: 60%;
+      min-height: 60%;
+      height: 60%;
+
+      @media (orientation: landscape) and (max-width: $desktop-breakpoint-m) {
+        width: 35%;
+        max-height: 100%;
+        min-height: 100%;
+        height: 100%;
+      }
+
+      @media (min-width: $desktop-breakpoint-m) {
+        width: 24rem;
+        height: 100%;
+        max-height: 100%;
+      }
 
       display: flex;
       flex-direction: column;
@@ -26,14 +49,72 @@
       font-family: Inter, Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
       .chat-header {
+        position: relative;
         height: 50px;
+        min-height: 50px;
         border-bottom: 2px solid #4a4a5f;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.4rem;
-
         background-color: #1e1e2b;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 $m-size;
+        font-size: 1.0rem;
+
+        @media (min-width: $desktop-breakpoint-m) {
+          font-size: 1.4rem;
+        }
+
+        .category-button {
+          &:hover {
+            color: $lirik-blue;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .category-dropdown {
+        transition: max-height 0.2s ease-in-out, opacity 0.2s ease-out;
+        width: 100%;
+        background-color: #18181b;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+
+        .category-dropdown-header {
+          height: 30px;
+          width: 100%;
+          align-content: center;
+          align-items: center;
+
+          p {
+            margin: 0 5px;
+            font-size: $s-size;
+          }
+        }
+
+        .category-dropdown-content {
+          width: 100%;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          padding: 0 5px;
+        }
+      }
+
+      .category-dropdown.active {
+        opacity: 1;
+        height: auto;
+        max-height: 300px;
+        margin-bottom: 5px;
+        border-bottom: solid 2px white;
       }
 
       .message-list {
@@ -51,14 +132,33 @@
           margin: 0 0 0.5rem 0;
           word-break: break-word;
           overflow-wrap: break-word;
+          font-size: 15px;
 
           .message_autor {
             font-weight: bold;
+          }
+
+          .message-content {
+            img {
+              vertical-align: middle;
+              display: inline-block;
+              position: relative;
+              margin: -.5rem 0;
+            }
           }
         }
       }
     }
   }
+}
 
+:host ::ng-deep .message > .message-content > .emote-image {
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  margin: -.5rem 0;
+}
 
+.emote-image {
+  vertical-align: middle;
 }

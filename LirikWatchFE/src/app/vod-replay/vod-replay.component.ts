@@ -1,10 +1,17 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Subject, interval} from 'rxjs';
+import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
-import {YtService} from './services/yt.service';
+import {VodService} from './services/vod.service';
+import {convertGameMetaToGame, GamesMeta, VodMetadata} from '../shared/models/video';
+import {Game} from '../shared/models/filters';
+import {EmoteService} from './services/emote.service';
+import RelatedVideos = YT.RelatedVideos;
+import ModestBranding = YT.ModestBranding;
+import AutoPlay = YT.AutoPlay;
+import ShowInfo = YT.ShowInfo;
 
 @Component({
   selector: 'app-vod-replay',
@@ -13,7 +20,18 @@ import {YtService} from './services/yt.service';
 })
 export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
-  public ytVideoId;
+  public ytVideoId: string;
+  public vodMetadata: VodMetadata;
+
+  public playerVars: YT.PlayerVars = {
+    rel: RelatedVideos.Hide,
+    modestbranding: ModestBranding.Modest,
+    autoplay: AutoPlay.AutoPlay,
+  };
+
+  public viewChapterSelect = false;
+  @ViewChild('chapterSelect', {static: false}) chapterSelectView: ElementRef;
+
   @ViewChild('player') player: any;
 
   @ViewChild('messageList', {static: false}) messageList: ElementRef;
@@ -25,6 +43,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private playerReady = false;
   private lastCheckTime = 0;
   private lastTime = 0;
+  private lastEndTime = 0;
 
   private readonly FETCH_INTERVAL = 7;
   private readonly CHAT_OFFSET_SIZE = 10;
@@ -33,11 +52,24 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$  = new Subject();
   private recChat: Comment[] = [];
   private scrollMessageList: any;
+  private chapterSelectNative: any;
+
+  private skipTo: number = undefined;
+  private ytPlayer: YT.Player;
+
+  @HostListener('document:click', ['$event']) onClick(e: any): void {
+    if (this.viewChapterSelect) {
+      if (!this.chapterSelectNative.contains(e.target)) {
+        this.viewChapterSelect = false;
+      }
+    }
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private chatService: ChatService,
-    private ytService: YtService,
+    private vodService: VodService,
+    private emoteService: EmoteService,
   ) { }
 
   ngOnInit(): void {
@@ -55,12 +87,16 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
 
-        // Get yt vod id
-        this.ytService.getYtId(this.vodId)
-          .subscribe((id) => {
-            this.ytVideoId = id.id;
+        // Get vod data
+        this.vodService.getVodData(this.vodId)
+          .subscribe((data) => {
+            this.ytVideoId = data.video.ytId;
+            this.vodMetadata = data;
 
             this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
+
+            this.skipTo = this.activatedRoute.snapshot.queryParams.skipTo;
+
 
             // start fetch timer
             interval(500)
@@ -84,8 +120,18 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.scrollMessageList = this.messageList.nativeElement;
+    this.messages.changes.subscribe(_ => this.onMessageListChanged());
+    this.chapterSelectNative = this.chapterSelectView.nativeElement;
+  }
+
   public onReady(e: YT.PlayerEvent): void {
     this.playerReady = true;
+    this.ytPlayer = e.target;
+    if (this.skipTo) {
+      e.target.seekTo(this.skipTo, true);
+    }
     this.player.playVideo();
   }
 
@@ -93,6 +139,27 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     if (e.data === 0) {
       this.player.playVideo();
     }
+  }
+
+  public convertMetaToGame(meta: GamesMeta): Game {
+    return convertGameMetaToGame(meta);
+  }
+
+  public toggleChapterView(): void {
+    if (this.viewChapterSelect) {
+      this.viewChapterSelect = false;
+    } else {
+      // This is such that the document click event listener can run and in the next tick
+      // we will execute this statement. Otherwise they compete and might turn eachother off.
+      setTimeout(() => {
+        this.viewChapterSelect = true;
+      });
+    }
+  }
+
+  public jumpToChapter(game: GamesMeta): void {
+    this.player._player.seekTo(game.positionMilliseconds / 1000, true);
+    this.viewChapterSelect = false;
   }
 
   private clearChat(): void {
@@ -133,6 +200,8 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     let cleared = false;
     if (Math.abs(time - this.lastTime) > 2) {
       this.clearChat();
+      this.lastEndTime = 0;
+      this.lastCheckTime = time;
       cleared = true;
     }
 
@@ -142,10 +211,15 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       return; // Paused or not enough time passed
     }
 
-    this.lastCheckTime = time;
+    this.lastCheckTime = this.lastEndTime;
+    if (this.lastEndTime === 0) {
+      this.lastCheckTime = time;
+    }
+
+    this.lastEndTime = this.lastCheckTime + this.CHAT_OFFSET_SIZE;
 
     // Make call to backend
-    this.chatService.getChatBatch(this.vodId, this.lastCheckTime, this.lastCheckTime + this.CHAT_OFFSET_SIZE)
+    this.chatService.getChatBatch(this.vodId, this.lastCheckTime, this.lastEndTime)
       .subscribe((chat) => {
         this.recChat = this.recChat.concat(chat);
       }, err => {
@@ -154,11 +228,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateChat(): void {
-    while (true) {
-      if (this.recChat.length === 0) {
-        return;
-      }
-
+    while (this.recChat.length !== 0) {
       const top = this.recChat[0];
       if (top.contentOffsetSeconds > this.player._player.getCurrentTime()) {
         return;
@@ -166,6 +236,9 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // Else we pop and keep going
       this.recChat.shift();
+
+      // Before pushing edit the emotes into the message
+      top.messageContent.body = this.emoteService.formatCompleteMessage(top.messageContent.body, top.messageContent.emotes);
       this.viewChat.push(top);
 
       // Check viewChat size to reduce ram usage and lag
@@ -179,11 +252,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next();
   }
 
-  ngAfterViewInit(): void {
-    this.scrollMessageList = this.messageList.nativeElement;
-    this.messages.changes.subscribe(_ => this.onMessageListChanged());
-  }
-
   private onMessageListChanged(): void {
     this.scrollToBottom();
   }
@@ -195,4 +263,5 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       behavior: 'auto'
     });
   }
+
 }
