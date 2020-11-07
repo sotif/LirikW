@@ -27,8 +27,11 @@ export const appRoutes: Routes = [
     path: 'login',
     canActivate: [NotAuthGuard],
     runGuardsAndResolvers: 'always',
-    component: LoginComponent,
     children: [
+      {
+        path: '',
+        component: LoginComponent,
+      },
       {
         path: 'auth',
         component: AuthComponent

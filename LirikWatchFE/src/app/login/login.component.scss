@@ -6,21 +6,11 @@
   position: relative;
   display: flex;
   justify-content: center;
-  margin-top: 200px;
+  padding-top: 200px;
 
   .content {
     .header {
       text-align: center;
-
-      .welcome {
-        font-size: $m-size;
-        margin: 0;
-        font-weight: 400;
-
-        @media (min-width: $desktop-breakpoint-s) {
-          font-size: $lm-size;
-        }
-      }
 
       .title {
         font-size: $l-size;
@@ -58,6 +48,8 @@
           -webkit-box-shadow: -3px 3px 0px 0px $lirik-blue;
           -moz-box-shadow: -3px 3px 0px 0px $lirik-blue;
           box-shadow: -3px 3px 0px 0px $lirik-blue;
+
+          cursor: pointer;
         }
       }
     }

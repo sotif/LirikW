@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
+    const code = this.activatedRoute.snapshot.queryParams.code;
+    if (!code) {
+      this.router.navigate(['/']);
+    }
+
+    this.authService.authenticate(code)
+      .subscribe(resp => {
+        console.log(resp);
+      }, err => {
+        console.log(err);
+      });
   }
 
 }
