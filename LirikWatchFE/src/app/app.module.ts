@@ -17,6 +17,13 @@ import { FilterVideoComponent } from './home/components/filter-video/filter-vide
 import { FilterGameComponent } from './home/components/filter-game/filter-game.component';
 import { VodContainerComponent } from './home/components/vod-container/vod-container.component';
 import { FooterComponent } from './home/components/footer/footer.component';
+import { LoginComponent } from './login/login.component';
+import { AuthComponent } from './login/components/auth/auth.component';
+import {JwtModule} from '@auth0/angular-jwt';
+
+export function tokenGetter(): string {
+  return localStorage.getItem('api-token');
+}
 
 @NgModule({
   declarations: [
@@ -29,6 +36,8 @@ import { FooterComponent } from './home/components/footer/footer.component';
     FilterGameComponent,
     VodContainerComponent,
     FooterComponent,
+    LoginComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +47,13 @@ import { FooterComponent } from './home/components/footer/footer.component';
     YouTubePlayerModule,
     HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        allowedDomains: [ '*/api' ],
+        disallowedRoutes: [ '*/api/auth' ]
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
