@@ -1,0 +1,97 @@
+@import "src/shared/scss/settings";
+
+.footer-container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: $l-size;
+  .footer-splitter {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding-left: calc(30px + 1.6rem);
+
+
+    @media (min-width: $desktop-breakpoint-s) {
+      flex-direction: row;
+      max-width: 110rem;
+    }
+
+    >div[class^="footer-"] {
+      margin-right: $xl-size;
+      margin-bottom: $m-size;
+      position: relative;
+
+      h3 {
+        margin: 0;
+      }
+
+      a {
+        margin: $xs-size;
+        text-decoration: none;
+        color: white;
+
+        &:hover:link:visited:active {
+          text-decoration: none;
+          color: white;
+        }
+      }
+
+      .name {
+        color: $lirik-blue;
+        font-size: 110%;
+      }
+
+      &:before {
+        content: "";
+        display: block;
+        width: 10px;
+        height: 100%;
+        border-left: solid 2px white;
+        position: absolute;
+        left: -30px;
+      }
+    }
+
+    .footer-3 {
+      h3 {
+        margin: 0;
+      }
+      p {
+        margin: 0;
+      }
+
+      .support-email {
+        text-decoration: none;
+        color: white;
+        margin: 0;
+
+        &:hover:link:visited:active {
+          text-decoration: none;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.icon-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon-img {
+  width: 24px;
+  height: 24px;
+  color: white;
+  filter: brightness(0) invert(1);
+  margin: 0;
+  vertical-align: middle;
+}
+
+
