@@ -33,10 +33,14 @@
 
       .login-button {
         background-color: $lirik-blue;
-        padding: $s-size;
+        padding: 0.9rem;
         border-radius: 35px;
         font-weight: bold;
         color: black;
+
+        @media (min-width: $desktop-breakpoint-s) {
+          padding: $s-size;
+        }
 
 
 
