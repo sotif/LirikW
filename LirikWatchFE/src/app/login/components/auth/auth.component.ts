@@ -23,7 +23,11 @@ export class AuthComponent implements OnInit {
 
     this.authService.authenticate(code)
       .subscribe(resp => {
-        console.log(resp);
+        if (this.authService.loggedIn()) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/login']);
+        }
       }, err => {
         console.log(err);
       });

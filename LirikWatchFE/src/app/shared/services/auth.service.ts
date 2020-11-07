@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {AuthResponse, authToTwitchUser, TwitchUser} from '../models/auth';
+import {catchError, map} from 'rxjs/operators';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +12,8 @@ import {Observable} from 'rxjs';
 export class AuthService {
 
   private baseUrl = environment.apiUrl;
+  private twitchUser: TwitchUser;
+  private jwtHelper = new JwtHelperService();
 
   constructor(
     private http: HttpClient
@@ -18,18 +23,31 @@ export class AuthService {
     }
   }
 
-  public authenticate(code: string): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'api/auth', {code});
+  public authenticate(code: string): Observable<TwitchUser> {
+    return this.http.post<AuthResponse>(this.baseUrl + 'api/auth', {code})
+      .pipe(
+        map((resp: AuthResponse) => {
+          localStorage.setItem('token', resp.jwt);
+          this.twitchUser = authToTwitchUser(resp);
+          return this.twitchUser;
+        })
+      );
+  }
+
+  public getUser(): TwitchUser {
+    return this.twitchUser;
+  }
+
+  public logout(): void {
+    localStorage.removeItem('token');
   }
 
   public loggedIn(): boolean {
-    return false;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }
-/*{
-    "name": "serenity_c7",
-    "displayName": "Serenity_c7",
-    "id": 45386791,
-    "profilePictureUri": "https://static-cdn.jtvnw.net/jtv_user_pictures/serenity_c7-profile_image-021f5fbe2f1ed91f-300x300.png",
-    "jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEifQ.eyJhdWQiOiJ5MmtnZXVwMG81aTE4Nzg0cTl1Zmo4enBuZzRlY2ciLCJleHAiOjE2MDQ3ODIzMDUsImlhdCI6MTYwNDc4MTQwNSwiaXNzIjoiaHR0cHM6Ly9pZC50d2l0Y2gudHYvb2F1dGgyIiwic3ViIjoiNDUzODY3OTEiLCJlbWFpbCI6Imdlcm1hbmdhbWVydjJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6IlNlcmVuaXR5X2M3In0.Tu6gnvG_L3bm3P5oCfI6HqociIC2yDeTL0fFCgY217RrB7tcUMP8xupy7WEhKjCymEgSP7K9O9pb4h9-mMpZm9L__gZwQtBZ_6ClMmB0gr64XOWYRFV9KEtyi2FQ0_C0vFWwn0cOL4ykg3I2SPSRBSd3Ck-Fh9clLH2DKlb2YXlhVBBQvY0Zx7PAwAPoxnDf7po2YxrmNAuDCrvHTl21mFg6xeZtRlpCpg2TjH-yyVlSl71mrQLnCXK8rqjytE1SPW6PMhLFBYx95Ja1NUa_r9c6_ZnEhNgfALEtEn2PfMGT4qvf3LjD6Wwzm6p9VnSavR5zCqgKrtR5RD0skRiLcg"
-}*/

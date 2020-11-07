@@ -19,6 +19,11 @@ import { VodContainerComponent } from './home/components/vod-container/vod-conta
 import { FooterComponent } from './home/components/footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { AuthComponent } from './login/components/auth/auth.component';
+import {JwtModule} from '@auth0/angular-jwt';
+
+export function tokenGetter(): string {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -42,6 +47,13 @@ import { AuthComponent } from './login/components/auth/auth.component';
     YouTubePlayerModule,
     HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        allowedDomains: [ '*/api' ],
+        disallowedRoutes: [ '*/api/auth' ]
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
