@@ -22,7 +22,7 @@ import { AuthComponent } from './login/components/auth/auth.component';
 import {JwtModule} from '@auth0/angular-jwt';
 
 export function tokenGetter(): string {
-  return localStorage.getItem('token');
+  return localStorage.getItem('api-token');
 }
 
 @NgModule({

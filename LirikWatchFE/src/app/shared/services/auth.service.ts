@@ -27,7 +27,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(this.baseUrl + 'api/auth', {code})
       .pipe(
         map((resp: AuthResponse) => {
-          localStorage.setItem('token', resp.jwt);
+          localStorage.setItem('api-token', resp.jwt);
           this.twitchUser = authToTwitchUser(resp);
           return this.twitchUser;
         })
@@ -39,11 +39,11 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('api-token');
   }
 
   public loggedIn(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('api-token');
     if (!token) {
       return false;
     }
