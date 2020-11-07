@@ -19,12 +19,12 @@ export class AuthService {
     private http: HttpClient
   ) {
     if (!environment.production) {
-      this.baseUrl = 'https://dev.local.initial.network:5001/';
+      this.baseUrl = 'https://dev.local.initial.network:5001/api/';
     }
   }
 
   public authenticate(code: string): Observable<TwitchUser> {
-    return this.http.post<AuthResponse>(this.baseUrl + 'api/auth', {code})
+    return this.http.post<AuthResponse>(this.baseUrl + 'auth', {code})
       .pipe(
         map((resp: AuthResponse) => {
           localStorage.setItem('api-token', resp.jwt);
