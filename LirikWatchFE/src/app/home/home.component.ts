@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     });
 
-    this.filterService.getLatestVods(8)
+    this.filterService.getLatestVods(10)
       .subscribe((latest) => {
         this.latestVods = latest;
       }, err => {
