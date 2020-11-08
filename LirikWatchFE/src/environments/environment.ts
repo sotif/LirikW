@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:5000/api/',
+  devApiUrl: 'https://dev.local.initial.network:5001/api/',
   allowedDomains: [ 'dev.local.initial.network:5001' ],
   disallowedRoutes: [ 'https://dev.local.initial.network:5001/api/auth' ]
 };
