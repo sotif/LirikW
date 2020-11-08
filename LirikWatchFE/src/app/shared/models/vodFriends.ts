@@ -25,7 +25,7 @@ export interface GameMeta {
 export interface VGame {
   name: string;
   boxArtUrl: string;
-  id: number;
+  id?: number;
 }
 
 const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
@@ -34,14 +34,15 @@ const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
     title: meta.data.title,
     ytId: meta.youTubeId,
     createdAt: meta.data.recordedAt,
-    lengthInSeconds: meta.data.lengthSeconds
+    lengthInSeconds: meta.data.lengthSeconds,
+    videoGuid: meta.guid
   },
   games: meta.games.map(x => vGameToInternal(x))
 });
 
 const vGameToInternal = (g: GameMeta): GamesMeta => ({
   title: g.game.name,
-  id: g.game.id.toString(),
+  id: g.game.id?.toString(),
   boxArtUrl: g.game.boxArtUrl,
   positionMilliseconds: g.positionMilliseconds,
   durationMilliseconds: g.durationMilliseconds

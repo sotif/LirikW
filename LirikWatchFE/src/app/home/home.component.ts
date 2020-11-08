@@ -122,6 +122,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onVodClick(vodId: string): void {
-    this.router.navigate(['/vod', vodId.replace('v', '')]);
+    this.router.navigate(['/vod', vodId]);
   }
 }
