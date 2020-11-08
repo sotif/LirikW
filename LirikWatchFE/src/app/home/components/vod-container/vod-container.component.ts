@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   templateUrl: './vod-container.component.html',
   styleUrls: ['./vod-container.component.scss']
 })
-export class VodContainerComponent implements AfterViewInit {
+export class VodContainerComponent implements OnInit, AfterViewInit {
 
   @Input() video: VodMetadata;
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -28,7 +28,16 @@ export class VodContainerComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-  ) { }
+  ) {}
+
+  ngOnInit(): void {
+    if (this.video.games) {
+      this.video.games = this.video.games
+        .sort((a, b) => {
+          return a.positionMilliseconds < b.positionMilliseconds ? 1 : -1;
+        });
+    }
+  }
 
   ngAfterViewInit(): void {
     this.chapterViewNative = this.chapterView.nativeElement;
@@ -61,4 +70,6 @@ export class VodContainerComponent implements AfterViewInit {
       }
     });
   }
+
+
 }
