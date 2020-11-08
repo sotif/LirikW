@@ -19,7 +19,7 @@ export class AuthService {
     private http: HttpClient
   ) {
     if (!environment.production) {
-      this.baseUrl = 'https://dev.local.initial.network:5001/api/';
+      this.baseUrl = environment.devApiUrl;
     }
   }
 
