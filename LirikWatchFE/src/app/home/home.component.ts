@@ -81,6 +81,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.searching = !!this.searchString && this.searchString.length > 1;
       this.loading = this.searching;
+      if (!this.searching) {
+        return;
+      }
 
       // Do the actual search
       this.filterService.getTotalFilter(this.searchString, 25, 'dsc')
