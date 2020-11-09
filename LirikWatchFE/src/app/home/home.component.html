@@ -10,11 +10,9 @@
           <div class="search-bar">
             <div class="search-bar__padder">
 
-              <!--            [(ngModel)]="youtubeUrl" (keydown.enter)="onYoutubeSearch()"-->
               <input type="text" placeholder="Search Vod Titles, Games or Dates (US format)" [ngModel]="searchString"
-                     (ngModelChange)="searchChanged($event)">
+                     (ngModelChange)="searchChanged($event)" (keyup.enter)="pressEnterOnSearchBox()">
               <div class="search-bar__icon">
-                <!--              <fa-icon [icon]="faSearch"></fa-icon>-->
                 <i class="pi pi-search"></i>
               </div>
             </div>
@@ -72,9 +70,15 @@
 
     <div class="content-container flex-direction-col vod-list-container">
       <!--Search Results-->
-      <div class="vod-results" *ngIf="searchResults">
+      <div class="vod-results" *ngIf="showSearchResults">
         <h1>Search Results</h1>
-        <div class="vod-list">
+        <div *ngIf="!searchResults" class="nothing-found">
+          <app-load-spinner></app-load-spinner>
+        </div>
+        <div *ngIf="searchResults && searchResults.length === 0" class="nothing-found">
+          <h2>Nothing here...</h2>
+        </div>
+        <div class="vod-list" *ngIf="searchResults">
           <div class="filter-wrap" *ngFor="let video of searchResults">
             <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.videoGuid)"></app-vod-container>
           </div>

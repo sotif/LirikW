@@ -25,9 +25,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public latestVods: VodMetadata[];
 
+  public showSearchResults = false;
+
   private dropDownElement: any;
 
-  private destroy$  = new Subject();
+  private earlySearchString: string;
+
+  private destroy$ = new Subject();
 
   @ViewChild('searchDropdown', {static: false}) searchDropdown: ElementRef;
 
@@ -48,7 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private filterService: FilterService,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.searchObservable.pipe(
@@ -102,21 +107,22 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   public hasAnyResult(): boolean {
     return this.filterResult &&
       (
-        (this.filterResult.filterGames && this.filterResult.filterGames.length > 0 ) ||
+        (this.filterResult.filterGames && this.filterResult.filterGames.length > 0) ||
         (this.filterResult.filterTitles && this.filterResult.filterTitles.length > 0) ||
         (this.filterResult.filterDates && this.filterResult.filterDates.length > 0)
       );
   }
 
   public searchChanged(e: string): void {
+    this.earlySearchString = e;
     this.searchObservable.next(e);
   }
 
   public filterByGame(game: Game): void {
-    console.log(game);
     this.searching = false;
     this.loading = false;
     this.searchString = '';
+    this.showSearchResults = true;
 
     this.filterService.getFilterByGame(game.id, 'dsc', 10)
       .subscribe(vods => {
@@ -129,5 +135,28 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onVodClick(vodId: string): void {
     this.router.navigate(['/vod', vodId]);
+  }
+
+  public pressEnterOnSearchBox(): void {
+    this.searching = false;
+    this.loading = false;
+    this.showSearchResults = true;
+
+    this.filterService.getTotalFilter(this.earlySearchString, 25, 'dsc')
+      .subscribe(
+        (filter) => {
+
+          // We want the search results by title and date and merge them together into the search results
+          // bcs its probably one of both ^^
+          const byTitle = filter.byTitle.map(vodMetaToInternalVodMetadataSortedGameList);
+          const byDate = filter.byDate.map(vodMetaToInternalVodMetadataSortedGameList);
+          this.searchResults = byTitle.concat(byDate);
+        },
+        err => {
+          // TODO PROPER ERROR
+          console.error(err);
+          this.loading = false;
+        }
+      );
   }
 }

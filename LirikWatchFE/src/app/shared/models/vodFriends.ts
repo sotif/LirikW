@@ -51,7 +51,7 @@ const vGameToInternal = (g: GameMeta): GamesMeta => ({
   durationMilliseconds: g.durationMilliseconds
 });
 
-const vodMetaToInternalVodMetadataSortedGameList = (v: VodMeta) => {
+const vodMetaToInternalVodMetadataSortedGameList = (v: VodMeta): VodMetadata => {
   v.games = v.games.map(g => {
     if (!g.positionMilliseconds) {
       g.positionMilliseconds = 0;
