@@ -28,7 +28,8 @@ const createGameList = (search: string, gameResults: VodMeta[]) => {
       gameMap.set(g.game.name, null);
       combined.push({
         title: g.game.name,
-        boxArtUrl: g.game.boxArtUrl
+        boxArtUrl: g.game.boxArtUrl,
+        id: g.game.guid
       });
     });
   });

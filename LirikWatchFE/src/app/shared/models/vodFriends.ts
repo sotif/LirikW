@@ -26,7 +26,7 @@ export interface GameMeta {
 export interface VGame {
   name: string;
   boxArtUrl: string;
-  id?: number;
+  guid: string;
 }
 
 const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
@@ -45,10 +45,23 @@ const vodMetaToInternalVideo = (meta: VodMeta): Video => ({
 
 const vGameToInternal = (g: GameMeta): GamesMeta => ({
   title: g.game.name,
-  id: g.game.id?.toString(),
+  id: g.game.guid,
   boxArtUrl: g.game.boxArtUrl,
   positionMilliseconds: g.positionMilliseconds,
   durationMilliseconds: g.durationMilliseconds
 });
 
-export {vodMetaToInternal, vGameToInternal, vodMetaToInternalVideo};
+const vodMetaToInternalVodMetadataSortedGameList = (v: VodMeta) => {
+  v.games = v.games.map(g => {
+    if (!g.positionMilliseconds) {
+      g.positionMilliseconds = 0;
+    }
+    return g;
+  }).sort((a, b) => {
+    return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
+  });
+
+  return vodMetaToInternal(v);
+};
+
+export {vodMetaToInternal, vGameToInternal, vodMetaToInternalVideo, vodMetaToInternalVodMetadataSortedGameList};

@@ -21,28 +21,32 @@ export class FilterService {
     }
   }
 
-  public getTotalFilter(search: string, take: number, sort: ('dsc' | 'asc')): Observable<SearchResults> {
+  public getTotalFilter(search: string, take: number, sort: ('dsc' | 'asc'), offset: number = 0): Observable<SearchResults> {
     const params = new HttpParams()
       .set('query', search)
       .set('take', take.toString())
+      .set('offset', offset.toString())
       .set('sort', sort);
 
     return this.http.get<SearchResults>(this.baseUrl + 'search/videos', { params });
   }
 
-  public getLatestVods(amount: number): Observable<VodMeta[]> {
+  public getLatestVods(amount: number, offset: number = 0): Observable<VodMeta[]> {
     const params = new HttpParams()
       .set('data', 'true')
+      .set('offset', offset.toString())
       .set('take', amount.toString());
 
     return this.http.get<VodMeta[]>(this.baseUrl + 'video/channel/ab4b0664-00c0-4624-b603-7ea1da2ff084', { params });
   }
 
-  public getFilterByGame(gameId: string): Observable<VodMetadata[]> {
+  public getFilterByGame(gameId: string, sort: ('asc' | 'dsc'), take: number, offset: number = 0): Observable<VodMeta[]> {
     const params = new HttpParams()
-      .set('gameId', gameId);
+      .set('take', take.toString())
+      .set('offset', offset.toString())
+      .set('sort', sort);
 
-    return this.http.get<VodMetadata[]>(this.baseUrl + 'filter/game', { params });
+    return this.http.get<VodMeta[]>(this.baseUrl + 'search/videos/' + gameId, { params });
   }
 
 }

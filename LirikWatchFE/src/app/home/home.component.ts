@@ -5,7 +5,7 @@ import {FilterService} from './services/filter.service';
 import {FilterResult, Game} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
 import {Router} from '@angular/router';
-import {vodMetaToInternal, vodMetaToInternalVideo} from '../shared/models/vodFriends';
+import {vodMetaToInternal, vodMetaToInternalVideo, vodMetaToInternalVodMetadataSortedGameList} from '../shared/models/vodFriends';
 import {createGameList, SearchResults} from '../shared/models/searchFriends';
 
 @Component({
@@ -84,18 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!latest) {
           return;
         }
-        this.latestVods = latest.map((v) => {
-          v.games = v.games.map(g => {
-            if (!g.positionMilliseconds) {
-              g.positionMilliseconds = 0;
-            }
-            return g;
-          }).sort((a, b) => {
-            return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
-          });
-
-          return vodMetaToInternal(v);
-        });
+        this.latestVods = latest.map(vodMetaToInternalVodMetadataSortedGameList);
       }, err => {
         // TODO proper ERROR
         console.error(err);
@@ -124,13 +113,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public filterByGame(game: Game): void {
+    console.log(game);
     this.searching = false;
     this.loading = false;
     this.searchString = '';
 
-    this.filterService.getFilterByGame(game.id)
+    this.filterService.getFilterByGame(game.id, 'dsc', 10)
       .subscribe(vods => {
-        this.searchResults = vods;
+        this.searchResults = vods.map(vodMetaToInternalVodMetadataSortedGameList);
       }, err => {
         // TODO PROPER ERROR HANDLING
         console.error(err);
