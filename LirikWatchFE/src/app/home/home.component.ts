@@ -5,7 +5,8 @@ import {FilterService} from './services/filter.service';
 import {FilterResult, Game} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
 import {Router} from '@angular/router';
-import {vodMetaToInternal} from '../shared/models/vodFriends';
+import {vodMetaToInternal, vodMetaToInternalVideo} from '../shared/models/vodFriends';
+import {createGameList, SearchResults} from '../shared/models/searchFriends';
 
 @Component({
   selector: 'app-home',
@@ -60,11 +61,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loading = this.searching;
 
       // Do the actual search
-      this.filterService.getTotalFilter(this.searchString)
+      this.filterService.getTotalFilter(this.searchString, 25, 'dsc')
         .subscribe(
           (filter) => {
             this.loading = false;
-            this.filterResult = filter;
+            this.filterResult = {
+              filterGames: createGameList(this.searchString, filter.byGame),
+              filterDates: filter.byDate.map(vodMetaToInternalVideo),
+              filterTitles: filter.byTitle.map(vodMetaToInternalVideo)
+            };
           },
           err => {
             // TODO PROPER ERROR

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {FilterResult} from '../../shared/models/filters';
 import {VodMetadata} from '../../shared/models/video';
 import {VodMeta} from '../../shared/models/vodFriends';
+import {SearchResults} from '../../shared/models/searchFriends';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,13 @@ export class FilterService {
     }
   }
 
-  public getTotalFilter(search: string): Observable<FilterResult> {
+  public getTotalFilter(search: string, take: number, sort: ('dsc' | 'asc')): Observable<SearchResults> {
     const params = new HttpParams()
-      .set('search', search);
+      .set('query', search)
+      .set('take', take.toString())
+      .set('sort', sort);
 
-    return this.http.get<FilterResult>(this.baseUrl + 'filter/', { params });
+    return this.http.get<SearchResults>(this.baseUrl + 'search/videos', { params });
   }
 
   public getLatestVods(amount: number): Observable<VodMeta[]> {

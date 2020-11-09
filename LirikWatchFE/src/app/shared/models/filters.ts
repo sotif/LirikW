@@ -5,7 +5,7 @@ export interface FilterResult {
 }
 
 export interface Game {
-  id: string;
+  id?: string;
   title: string;
   boxArtUrl: string;
 }

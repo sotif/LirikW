@@ -1,4 +1,5 @@
 import {GamesMeta, VodMetadata} from './video';
+import {Video} from './filters';
 
 export interface VodMeta {
   guid: string;
@@ -29,15 +30,17 @@ export interface VGame {
 }
 
 const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
-  video: {
-    id: meta.id.toString(),
-    title: meta.data.title,
-    ytId: meta.youTubeId,
-    createdAt: meta.data.recordedAt,
-    lengthInSeconds: meta.data.lengthSeconds,
-    videoGuid: meta.guid
-  },
+  video: vodMetaToInternalVideo(meta),
   games: meta.games.map(x => vGameToInternal(x))
+});
+
+const vodMetaToInternalVideo = (meta: VodMeta): Video => ({
+  id: meta.id.toString(),
+  title: meta.data.title,
+  ytId: meta.youTubeId,
+  createdAt: meta.data.recordedAt,
+  lengthInSeconds: meta.data.lengthSeconds,
+  videoGuid: meta.guid
 });
 
 const vGameToInternal = (g: GameMeta): GamesMeta => ({
@@ -48,4 +51,4 @@ const vGameToInternal = (g: GameMeta): GamesMeta => ({
   durationMilliseconds: g.durationMilliseconds
 });
 
-export {vodMetaToInternal, vGameToInternal};
+export {vodMetaToInternal, vGameToInternal, vodMetaToInternalVideo};
