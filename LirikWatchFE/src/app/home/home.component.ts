@@ -5,8 +5,8 @@ import {FilterService} from './services/filter.service';
 import {FilterResult, Game} from '../shared/models/filters';
 import {VodMetadata} from '../shared/models/video';
 import {Router} from '@angular/router';
-import {vodMetaToInternal, vodMetaToInternalVideo, vodMetaToInternalVodMetadataSortedGameList} from '../shared/models/vodFriends';
-import {createGameList, SearchResults} from '../shared/models/searchFriends';
+import {vodMetaToInternalVideo, vodMetaToInternalVodMetadataSortedGameList} from '../shared/models/vodFriends';
+import {createGameList} from '../shared/models/searchFriends';
 
 @Component({
   selector: 'app-home',

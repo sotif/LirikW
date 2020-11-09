@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {FilterResult} from '../../shared/models/filters';
-import {VodMetadata} from '../../shared/models/video';
 import {VodMeta} from '../../shared/models/vodFriends';
 import {SearchResults} from '../../shared/models/searchFriends';
 
