@@ -79,7 +79,18 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!latest) {
           return;
         }
-        this.latestVods = latest.map(vodMetaToInternal);
+        this.latestVods = latest.map((v) => {
+          v.games = v.games.map(g => {
+            if (!g.positionMilliseconds) {
+              g.positionMilliseconds = 0;
+            }
+            return g;
+          }).sort((a, b) => {
+            return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
+          });
+
+          return vodMetaToInternal(v);
+        });
       }, err => {
         // TODO proper ERROR
         console.error(err);

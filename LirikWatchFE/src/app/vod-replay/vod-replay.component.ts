@@ -92,6 +92,15 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vodService.getVodData(this.vodId)
           .subscribe((data) => {
             this.ytVideoId = data.youTubeId;
+            data.games = data.games.map(g => {
+              if (!g.positionMilliseconds) {
+                g.positionMilliseconds = 0;
+              }
+              return g;
+            }).sort((a, b) => {
+              return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
+            });
+
             this.vodMetadata = data;
 
             this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
@@ -159,6 +168,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public jumpToChapter(game: GameMeta): void {
+    console.log(game);
     this.player._player.seekTo(game.positionMilliseconds / 1000, true);
     this.viewChapterSelect = false;
   }
