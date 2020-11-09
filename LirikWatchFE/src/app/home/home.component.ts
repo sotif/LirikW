@@ -72,6 +72,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       distinctUntilChanged()
     ).subscribe(search => {
       this.searchString = search;
+
+      if (this.lastStringSearch && this.lastStringSearch === this.searchString) {
+        this.searching = false;
+        this.loading = false;
+        return;
+      }
+
       this.searching = !!this.searchString && this.searchString.length > 1;
       this.loading = this.searching;
 
