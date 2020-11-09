@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Comment} from '../models/chat';
+import {ChatReply} from '../models/friendsChat';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,18 @@ export class ChatService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    if (!environment.production) {
+      this.baseUrl = environment.devApiUrl;
+    }
+  }
 
-  public getChatBatch(vodId: number, startOffset: number, endOffset: number): Observable<Comment[]> {
+  public getChatBatch(vodId: string, startOffset: number, endOffset: number): Observable<ChatReply[]> {
     const params = new HttpParams()
-      .set('startTime', startOffset.toString())
-      .set('endTime', endOffset.toString());
+      .set('start', startOffset.toString())
+      .set('end', endOffset.toString());
 
-    return this.http.get<Comment[]>(this.baseUrl + 'chat/' + vodId, { params });
+    return this.http.get<ChatReply[]>(this.baseUrl + 'chat/video/' + vodId, { params });
   }
 
 }

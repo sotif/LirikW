@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {VodMetadata, YtId} from '../../shared/models/video';
+import {VodMeta} from '../../shared/models/vodFriends';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,14 @@ export class VodService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    if (!environment.production) {
+      this.baseUrl = environment.devApiUrl;
+    }
+  }
 
-  public getVodData(vodId: number): Observable<VodMetadata> {
-    return this.http.get<VodMetadata>(this.baseUrl + 'video/' + vodId.toString());
+  public getVodData(vodId: string): Observable<VodMeta> {
+    return this.http.get<VodMeta>(this.baseUrl + 'video/' + vodId);
   }
 
   public getYtId(vodId: number): Observable<YtId> {

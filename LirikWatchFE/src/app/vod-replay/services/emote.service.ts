@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, zip} from 'rxjs';
 import {BttvEmoteResp, Emote} from '../models/bttvEmotes';
-import {Emote as ttvEmote} from '../models/chat';
 import {map} from 'rxjs/operators';
+import {Emote as friendEmote} from '../models/friendsChat';
 import {emoteToShort, FfzEmoteResp, FfzEmoteShort} from '../models/ffzEmotes';
 
 @Injectable({
@@ -40,15 +40,14 @@ export class EmoteService {
 
   }
 
-  public formatCompleteMessage(msg: string, ttvEms: ttvEmote[]): string {
+  public formatCompleteMessage(msg: string, ttvEms: friendEmote[]): string {
     // Adding all the ttv emotes to our global emote map before sending it further
     // That way we dont have to finess around the datastructure and can just brute force it
-    if (ttvEms != null) {
+    if (ttvEms != null && ttvEms.length !== 0) {
       ttvEms.forEach(em => {
-        const st = msg.substring(em.begin, em.end + 1);
-        if (!this.emoteMap.has(st)) {
+        if (!this.emoteMap.has(em.text)) {
           // Add it to the global map
-          this.emoteMap.set(st, this.getTtvStandardEmoteUrl(em.id));
+          this.emoteMap.set(em.text, this.getTtvStandardEmoteUrl(em.id));
         }
       });
     }

@@ -28,7 +28,7 @@ export class VodContainerComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.chapterViewNative = this.chapterView.nativeElement;
@@ -55,10 +55,12 @@ export class VodContainerComponent implements AfterViewInit {
   }
 
   public jumpToVodAndGame(game: GamesMeta): void {
-    this.router.navigate(['/vod', this.video.video.id.replace('v', '')],{
+    this.router.navigate(['/vod', this.video.video.videoGuid], {
       queryParams: {
         skipTo: game.positionMilliseconds / 1000,
       }
     });
   }
+
+
 }

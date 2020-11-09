@@ -1,17 +1,18 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ChatService} from './services/chat.service';
 import {Comment} from './models/chat';
 import {VodService} from './services/vod.service';
-import {convertGameMetaToGame, GamesMeta, VodMetadata} from '../shared/models/video';
+import {convertGameMetaToGame} from '../shared/models/video';
 import {Game} from '../shared/models/filters';
 import {EmoteService} from './services/emote.service';
 import RelatedVideos = YT.RelatedVideos;
 import ModestBranding = YT.ModestBranding;
 import AutoPlay = YT.AutoPlay;
-import ShowInfo = YT.ShowInfo;
+import {GameMeta, vGameToInternal, VodMeta} from '../shared/models/vodFriends';
+import {ChatReply} from './models/friendsChat';
 
 @Component({
   selector: 'app-vod-replay',
@@ -21,7 +22,7 @@ import ShowInfo = YT.ShowInfo;
 export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   // thumbnail https://img.youtube.com/vi/ov3U7JWu_2Y/maxresdefault.jpg
   public ytVideoId: string;
-  public vodMetadata: VodMetadata;
+  public vodMetadata: VodMeta;
 
   public playerVars: YT.PlayerVars = {
     rel: RelatedVideos.Hide,
@@ -37,9 +38,9 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('messageList', {static: false}) messageList: ElementRef;
   @ViewChildren('messages') messages: QueryList<any>;
 
-  public viewChat: Comment[] = [];
+  public viewChat: ChatReply[] = [];
 
-  private vodId: number;
+  private vodId: string;
   private playerReady = false;
   private lastCheckTime = 0;
   private lastTime = 0;
@@ -50,7 +51,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly MAX_CHAT_SIZE = 120;
 
   private destroy$  = new Subject();
-  private recChat: Comment[] = [];
+  private recChat: ChatReply[] = [];
   private scrollMessageList: any;
   private chapterSelectNative: any;
 
@@ -70,6 +71,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     private chatService: ChatService,
     private vodService: VodService,
     private emoteService: EmoteService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -82,15 +84,23 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(params => {
         this.vodId = params.id;
         if (!this.vodId) {
-          // TODO Change not found page!!!!
-          alert('Not found, CHANGE THIS');
+          this.router.navigate(['/']);
           return;
         }
 
         // Get vod data
         this.vodService.getVodData(this.vodId)
           .subscribe((data) => {
-            this.ytVideoId = data.video.ytId;
+            this.ytVideoId = data.youTubeId;
+            data.games = data.games.map(g => {
+              if (!g.positionMilliseconds) {
+                g.positionMilliseconds = 0;
+              }
+              return g;
+            }).sort((a, b) => {
+              return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
+            });
+
             this.vodMetadata = data;
 
             this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
@@ -141,8 +151,8 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public convertMetaToGame(meta: GamesMeta): Game {
-    return convertGameMetaToGame(meta);
+  public convertMetaToGame(meta: GameMeta): Game {
+    return convertGameMetaToGame(vGameToInternal(meta));
   }
 
   public toggleChapterView(): void {
@@ -157,7 +167,8 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public jumpToChapter(game: GamesMeta): void {
+  public jumpToChapter(game: GameMeta): void {
+    console.log(game);
     this.player._player.seekTo(game.positionMilliseconds / 1000, true);
     this.viewChapterSelect = false;
   }
@@ -168,19 +179,18 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChat.push(this.createSystemMessage('Loading Chat. Hang tight :)'));
   }
 
-  private createSystemMessage(message: string): Comment {
+  private createSystemMessage(message: string): ChatReply {
     return {
       commenter: {
         displayName: 'System'
       },
-      id: '0',
-      messageContent: {
+      body: message,
+      data: {
         userColor: '#808080',
-        body: message,
-        emotes: null
       },
-      contentOffsetSeconds: 0,
-      createdAt: ''
+      offset: 0,
+      badges: [],
+      emotes: [],
     };
   }
 
@@ -230,7 +240,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateChat(): void {
     while (this.recChat.length !== 0) {
       const top = this.recChat[0];
-      if (top.contentOffsetSeconds > this.player._player.getCurrentTime()) {
+      if (top.offset > this.player._player.getCurrentTime()) {
         return;
       }
 
@@ -238,7 +248,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
       this.recChat.shift();
 
       // Before pushing edit the emotes into the message
-      top.messageContent.body = this.emoteService.formatCompleteMessage(top.messageContent.body, top.messageContent.emotes);
+      top.body = this.emoteService.formatCompleteMessage(top.body, top.emotes);
       this.viewChat.push(top);
 
       // Check viewChat size to reduce ram usage and lag

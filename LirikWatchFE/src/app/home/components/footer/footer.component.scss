@@ -65,6 +65,14 @@
         margin: 0;
       }
 
+      .log-out {
+        margin-top: $xs-size;
+        color: $lirik-blue;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
       .support-email {
         text-decoration: none;
         color: white;

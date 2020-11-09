@@ -1,4 +1,5 @@
 import {GamesMeta, VodMetadata} from './video';
+import {Video} from './filters';
 
 export interface VodMeta {
   guid: string;
@@ -24,27 +25,43 @@ export interface GameMeta {
 
 export interface VGame {
   name: string;
-  boxArtUtl: string;
-  id: number;
+  boxArtUrl: string;
+  guid: string;
 }
 
 const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
-  video: {
-    id: meta.id.toString(),
-    title: meta.data.title,
-    ytId: meta.youTubeId,
-    createdAt: meta.data.recordedAt,
-    lengthInSeconds: meta.data.lengthSeconds
-  },
+  video: vodMetaToInternalVideo(meta),
   games: meta.games.map(x => vGameToInternal(x))
+});
+
+const vodMetaToInternalVideo = (meta: VodMeta): Video => ({
+  id: meta.id.toString(),
+  title: meta.data.title,
+  ytId: meta.youTubeId,
+  createdAt: meta.data.recordedAt,
+  lengthInSeconds: meta.data.lengthSeconds,
+  videoGuid: meta.guid
 });
 
 const vGameToInternal = (g: GameMeta): GamesMeta => ({
   title: g.game.name,
-  id: g.game.id.toString(),
-  boxArtUrl: g.game.boxArtUtl,
+  id: g.game.guid,
+  boxArtUrl: g.game.boxArtUrl,
   positionMilliseconds: g.positionMilliseconds,
   durationMilliseconds: g.durationMilliseconds
 });
 
-export {vodMetaToInternal, vGameToInternal};
+const vodMetaToInternalVodMetadataSortedGameList = (v: VodMeta): VodMetadata => {
+  v.games = v.games.map(g => {
+    if (!g.positionMilliseconds) {
+      g.positionMilliseconds = 0;
+    }
+    return g;
+  }).sort((a, b) => {
+    return a.positionMilliseconds < b.positionMilliseconds ? -1 : 1;
+  });
+
+  return vodMetaToInternal(v);
+};
+
+export {vodMetaToInternal, vGameToInternal, vodMetaToInternalVideo, vodMetaToInternalVodMetadataSortedGameList};

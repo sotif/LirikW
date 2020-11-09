@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../../../shared/services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -7,4 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent {
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+  }
+
+  public logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

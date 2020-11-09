@@ -5,7 +5,7 @@ export interface FilterResult {
 }
 
 export interface Game {
-  id: string;
+  id?: string;
   title: string;
   boxArtUrl: string;
 }
@@ -18,6 +18,7 @@ export interface Video {
   id: string;
   lengthInSeconds: number;
   ytId: string;
+  videoGuid?: string;
 }
 
 const getYtThumbnail = (ytId: string) => `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
