@@ -82,6 +82,14 @@
           <div class="filter-wrap" *ngFor="let video of searchResults">
             <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.videoGuid)"></app-vod-container>
           </div>
+          <div class="load-more-container" *ngIf="showSearchResultsMoreButton" (click)="moreSearchResultsClick()">
+            <div class="load-more-button">
+              Load More
+            </div>
+          </div>
+          <div *ngIf="showSearchResultsMoreSpinner" class="nothing-found">
+            <app-load-spinner></app-load-spinner>
+          </div>
         </div>
       </div>
 
@@ -91,6 +99,14 @@
         <div class="vod-list">
           <div class="filter-wrap" *ngFor="let video of latestVods">
             <app-vod-container [video]="video" (clickEvent)="onVodClick(video.video.videoGuid)"></app-vod-container>
+          </div>
+          <div class="load-more-container" *ngIf="showLatestVodsMoreButton" (click)="moreLatestVodsClick()">
+            <div class="load-more-button">
+              Load More
+            </div>
+          </div>
+          <div *ngIf="showLatestVodsMoreSpinner" class="nothing-found">
+            <app-load-spinner></app-load-spinner>
           </div>
         </div>
       </div>

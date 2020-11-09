@@ -27,6 +27,16 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showSearchResults = false;
 
+  public showLatestVodsMoreButton = false;
+  public showLatestVodsMoreSpinner = false;
+  private latestVodsCurrentOffset = 0;
+  public showSearchResultsMoreButton = false;
+  public showSearchResultsMoreSpinner = false;
+  private searchResultsCurrentOffset = 0;
+
+  private lastGameSearchId: string;
+  private lastStringSearch: string;
+
   private dropDownElement: any;
 
   private earlySearchString: string;
@@ -90,6 +100,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
         this.latestVods = latest.map(vodMetaToInternalVodMetadataSortedGameList);
+        if (this.latestVods.length >= 10) {
+          this.showLatestVodsMoreButton = true;
+          this.latestVodsCurrentOffset = 10;
+        }
       }, err => {
         // TODO proper ERROR
         console.error(err);
@@ -119,14 +133,22 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public filterByGame(game: Game): void {
+    this.lastGameSearchId = game.id;
+    this.lastStringSearch = null;
     this.searching = false;
     this.loading = false;
     this.searchString = '';
+    this.searchResults = null;
+
     this.showSearchResults = true;
 
     this.filterService.getFilterByGame(game.id, 'dsc', 10)
       .subscribe(vods => {
         this.searchResults = vods.map(vodMetaToInternalVodMetadataSortedGameList);
+        if (this.searchResults.length >= 10) {
+          this.showSearchResultsMoreButton = true;
+          this.searchResultsCurrentOffset = 10;
+        }
       }, err => {
         // TODO PROPER ERROR HANDLING
         console.error(err);
@@ -138,19 +160,30 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public pressEnterOnSearchBox(): void {
+    if (!this.earlySearchString || this.earlySearchString.length < 2) {
+      return;
+    }
+    this.lastGameSearchId = null;
+    this.lastStringSearch = this.earlySearchString;
+
     this.searching = false;
     this.loading = false;
     this.showSearchResults = true;
 
-    this.filterService.getTotalFilter(this.earlySearchString, 25, 'dsc')
+    this.searchResults = null;
+
+    this.filterService.getTotalFilter(this.earlySearchString, 15, 'dsc')
       .subscribe(
         (filter) => {
-
           // We want the search results by title and date and merge them together into the search results
           // bcs its probably one of both ^^
           const byTitle = filter.byTitle.map(vodMetaToInternalVodMetadataSortedGameList);
           const byDate = filter.byDate.map(vodMetaToInternalVodMetadataSortedGameList);
           this.searchResults = byTitle.concat(byDate);
+          if (this.searchResults.length >= 15) {
+            this.showSearchResultsMoreButton = true;
+            this.searchResultsCurrentOffset = 15;
+          }
         },
         err => {
           // TODO PROPER ERROR
@@ -158,5 +191,80 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           this.loading = false;
         }
       );
+  }
+
+  public moreLatestVodsClick(): void {
+    this.showLatestVodsMoreButton = false;
+    this.showLatestVodsMoreSpinner = true;
+    const lengthBefore = this.latestVods.length;
+    this.filterService.getLatestVods(15, this.latestVodsCurrentOffset)
+      .subscribe((latest) => {
+        this.showLatestVodsMoreSpinner = false;
+        if (!latest) {
+          return;
+        }
+        this.latestVods = this.latestVods.concat(latest.map(vodMetaToInternalVodMetadataSortedGameList));
+
+        if (this.latestVods.length >= lengthBefore + 15) {
+          this.showLatestVodsMoreButton = true;
+          this.latestVodsCurrentOffset = this.latestVods.length;
+        }
+      }, err => {
+        // TODO proper ERROR
+        this.showLatestVodsMoreSpinner = false;
+        console.error(err);
+      });
+  }
+
+  public moreSearchResultsClick(): void {
+    const lengthBefore = this.searchResults.length;
+    this.showSearchResultsMoreButton = false;
+    this.showSearchResultsMoreSpinner = true;
+
+    if (this.lastGameSearchId) {
+      this.filterService.getFilterByGame(this.lastGameSearchId, 'dsc', 10, this.searchResultsCurrentOffset)
+        .subscribe(vods => {
+          this.showSearchResultsMoreSpinner = false;
+
+          this.searchResults = this.searchResults.concat(vods.map(vodMetaToInternalVodMetadataSortedGameList));
+
+          if (this.searchResults.length >= lengthBefore + 10) {
+            this.showSearchResultsMoreButton = true;
+            this.searchResultsCurrentOffset = this.searchResults.length;
+          }
+        }, err => {
+          this.showSearchResultsMoreSpinner = false;
+          // TODO PROPER ERROR HANDLING
+          console.error(err);
+        });
+    }
+    else if (this.lastStringSearch) {
+      this.filterService.getTotalFilter(this.earlySearchString, 10, 'dsc', this.searchResultsCurrentOffset)
+        .subscribe(
+          (filter) => {
+            this.showSearchResultsMoreSpinner = false;
+            // We want the search results by title and date and merge them together into the search results
+            // bcs its probably one of both ^^
+            const byTitle = filter.byTitle.map(vodMetaToInternalVodMetadataSortedGameList);
+            const byDate = filter.byDate.map(vodMetaToInternalVodMetadataSortedGameList);
+
+            this.searchResults = this.searchResults.concat(byTitle.concat(byDate));
+
+            if (this.searchResults.length >= lengthBefore + 10) {
+              this.showSearchResultsMoreButton = true;
+              this.searchResultsCurrentOffset = this.searchResults.length;
+            }
+          },
+          err => {
+            // TODO PROPER ERROR
+            console.error(err);
+            this.loading = false;
+            this.showSearchResultsMoreSpinner = false;
+          }
+        );
+
+    } else {
+      return;
+    }
   }
 }
