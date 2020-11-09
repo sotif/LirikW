@@ -27,6 +27,11 @@
             (click)="jumpToVodAndGame(game)">
           </app-filter-game>
         </div>
+        <div *ngIf="!video?.games || video.games?.length === 0" class="nothing">
+          <div class="nothing-content">
+            <p>Nothing here...</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
