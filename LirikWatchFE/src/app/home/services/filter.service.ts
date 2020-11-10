@@ -13,11 +13,7 @@ export class FilterService {
 
   constructor(
     private http: HttpClient
-  ) {
-    if (!environment.production) {
-      this.baseUrl = environment.devApiUrl;
-    }
-  }
+  ) {}
 
   public getTotalFilter(search: string, take: number, sort: ('dsc' | 'asc'), offset: number = 0): Observable<SearchResults> {
     const params = new HttpParams()

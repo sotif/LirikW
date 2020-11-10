@@ -14,11 +14,7 @@ export class VodService {
 
   constructor(
     private http: HttpClient
-  ) {
-    if (!environment.production) {
-      this.baseUrl = environment.devApiUrl;
-    }
-  }
+  ) {}
 
   public getVodData(vodId: string): Observable<VodMeta> {
     return this.http.get<VodMeta>(this.baseUrl + 'video/' + vodId);

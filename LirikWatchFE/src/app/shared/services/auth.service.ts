@@ -17,11 +17,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient
-  ) {
-    if (!environment.production) {
-      this.baseUrl = environment.devApiUrl;
-    }
-  }
+  ) {}
 
   public authenticate(code: string): Observable<TwitchUser> {
     return this.http.post<AuthResponse>(this.baseUrl + 'auth', {code})
