@@ -29,7 +29,7 @@ export class AuthComponent implements OnInit {
           this.router.navigate(['/login']);
         }
       }, err => {
-        console.log(err);
+        console.error(err);
       });
   }
 
