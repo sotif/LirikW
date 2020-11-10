@@ -2,8 +2,6 @@
 
 .vod-card {
   width: 100%;
-  height: 250px;
-
   display: flex;
   flex-direction: column;
 
@@ -20,15 +18,47 @@
     .thumbnail {
       width: 100%;
       height: fit-content;
+      position: relative;
 
-      img {
-        &:hover {
+      &:hover {
+        img {
           transform: translate3d(.6rem, -0.6rem, 0);
           transition: all .1s;
           -webkit-box-shadow: -9px 10px 0px 0px $lirik-blue;
           -moz-box-shadow: -9px 10px 0px 0px $lirik-blue;
           box-shadow: -9px 10px 0px 0px $lirik-blue;
         }
+
+        .vod-date {
+          transform: translate3d(.6rem, -0.6rem, 0);
+          transition: all .1s;
+        }
+
+        .vod-length {
+          transform: translate3d(.6rem, -0.6rem, 0);
+          transition: all .1s;
+        }
+      }
+
+      .vod-date {
+        position: absolute;
+        padding: 2px 8px;
+        bottom: 15px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        font-size: 90%;
+      }
+
+      .vod-length {
+        position: absolute;
+        padding: 2px 8px;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        font-size: 90%;
+      }
+
+      img {
         width: 100%;
       }
     }
