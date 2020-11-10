@@ -38,7 +38,6 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.video);
     this.dateString = this.getDateString();
     this.lengthString = this.getLengthString();
   }
