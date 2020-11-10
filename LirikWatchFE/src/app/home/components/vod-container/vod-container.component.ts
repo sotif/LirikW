@@ -8,15 +8,26 @@ import {Router} from '@angular/router';
   templateUrl: './vod-container.component.html',
   styleUrls: ['./vod-container.component.scss']
 })
-export class VodContainerComponent implements AfterViewInit {
+export class VodContainerComponent implements OnInit, AfterViewInit {
+
+  constructor(
+    private router: Router,
+  ) {}
 
   @Input() video: VodMetadata;
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('chapterView', {static: false}) chapterView: ElementRef;
 
   public chapterViewVisible = false;
+  public dateString: string;
+  public lengthString: string;
 
   private chapterViewNative: any;
+  private readonly msInDay = 86400000;
+
+  private static padZero(st: string): string {
+    return `${(st.length === 1) ? '0' : ''}${st}`;
+  }
 
   @HostListener('document:click', ['$event']) onClick(e: any): void {
     if (this.chapterViewVisible) {
@@ -26,9 +37,11 @@ export class VodContainerComponent implements AfterViewInit {
     }
   }
 
-  constructor(
-    private router: Router,
-  ) {}
+  ngOnInit(): void {
+    console.log(this.video);
+    this.dateString = this.getDateString();
+    this.lengthString = this.getLengthString();
+  }
 
   ngAfterViewInit(): void {
     this.chapterViewNative = this.chapterView.nativeElement;
@@ -62,5 +75,44 @@ export class VodContainerComponent implements AfterViewInit {
     });
   }
 
+  private getLengthString(): string {
+    let length = this.video.video.lengthInSeconds;
+    const hours = Math.floor(length / 3600);
+    length -= hours * 3600;
+    const mins = Math.floor(length / 60);
+    const seconds = length - (mins * 60);
+    return `${hours.toString()}:${VodContainerComponent.padZero(mins.toString())}:${VodContainerComponent.padZero(seconds.toString())}`;
+  }
 
+  private getDateString(): string {
+    if (!this.video.video.createdAt) {
+      return null;
+    }
+    const hoursDiff = this.getHoursDifference();
+    if (hoursDiff < 24) {
+      return `${Math.floor(hoursDiff).toString()} hours ago`;
+    }
+    const days = Math.floor(hoursDiff / 24);
+    if (days < 30) {
+      return `${days.toString()} days ago`;
+    }
+    const c = new Date(this.video.video.createdAt);
+    return `${VodContainerComponent.padZero(c.getMonth().toString())}/${VodContainerComponent.padZero(c.getDate().toString())}/${c.getFullYear().toString()}`;
+  }
+
+  private getHoursDifference(): number {
+    const today = new Date();
+    const createdOn = new Date(this.video.video.createdAt);
+    return Math.abs(today.getTime() - createdOn.getTime()) / 36e5;
+  }
+
+  private getDaysAgo(): number {
+    const today = new Date();
+    const createdOn = this.video.video.createdAt;
+
+    today.setHours(0, 0, 0, 0);
+    createdOn.setHours(0, 0, 0, 0);
+
+    return (today.getTime() - createdOn.getTime()) / this.msInDay;
+  }
 }

@@ -1,7 +1,9 @@
 <div class="vod-card">
   <div class="card-content" (click)="this.clickEvent.emit()">
     <div class="thumbnail">
-        <img src="{{GetYtThumb()}}" alt="YtThumb">
+      <img src="{{GetYtThumb()}}" alt="YtThumb">
+      <div class="vod-date" *ngIf="dateString">{{dateString}}</div>
+      <div class="vod-length" *ngIf="lengthString">{{lengthString}}</div>
     </div>
     <div class="title">
       <p>{{video.video.title}}</p>
@@ -10,7 +12,7 @@
 
   <div class="chapter-button-container">
     <div class="chapter-button" (click)="toggleChapterView()">
-<!--        (click)="toggleChapterView()"-->
+      <!--        (click)="toggleChapterView()"-->
       <i class="pi pi-list category-button"></i>
       <span>Chapter List</span>
     </div>

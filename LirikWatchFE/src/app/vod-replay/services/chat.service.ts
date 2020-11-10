@@ -13,11 +13,7 @@ export class ChatService {
 
   constructor(
     private http: HttpClient
-  ) {
-    if (!environment.production) {
-      this.baseUrl = environment.devApiUrl;
-    }
-  }
+  ) {}
 
   public getChatBatch(vodId: string, startOffset: number, endOffset: number): Observable<ChatReply[]> {
     const params = new HttpParams()
