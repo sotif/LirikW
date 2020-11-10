@@ -168,7 +168,6 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public jumpToChapter(game: GameMeta): void {
-    console.log(game);
     this.player._player.seekTo(game.positionMilliseconds / 1000, true);
     this.viewChapterSelect = false;
   }
