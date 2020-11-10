@@ -97,7 +97,7 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
       return `${days.toString()} days ago`;
     }
     const c = new Date(this.video.video.createdAt);
-    return `${VodContainerComponent.padZero(c.getMonth().toString())} - ${VodContainerComponent.padZero(c.getDate().toString())} - ${c.getFullYear().toString()}`;
+    return `${VodContainerComponent.padZero(c.getMonth().toString())}/${VodContainerComponent.padZero(c.getDate().toString())}/${c.getFullYear().toString()}`;
   }
 
   private getHoursDifference(): number {
