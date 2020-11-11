@@ -3,15 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, zip} from 'rxjs';
 import {BttvEmoteResp, Emote} from '../models/bttvEmotes';
 import {map} from 'rxjs/operators';
-import {Emote as friendEmote} from '../models/friendsChat';
+import {Badge, Emote as friendEmote} from '../models/friendsChat';
 import {emoteToShort, FfzEmoteResp, FfzEmoteShort} from '../models/ffzEmotes';
+import {ChannelBadges, Version} from '../models/badges';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmoteService {
 
-  private ttvGlobalUrl = 'https://badges.twitch.tv/v1/badges/global/display?language=en';
   private ttvChannelUrl = 'https://badges.twitch.tv/v1/badges/channels/23161357/display';
 
   private bttvGlobalUrl = 'https://api.betterttv.net/3/cached/emotes/global';
@@ -19,6 +19,7 @@ export class EmoteService {
 
   private ffzChannelUrl = 'https://api.frankerfacez.com/v1/room/id/23161357';
   private emoteMap: Map<string, string> = new Map<string, string>();
+  private subMap: { [key: string]: Version };
 
   constructor(
     private http: HttpClient
@@ -38,6 +39,45 @@ export class EmoteService {
         console.error(err);
       });
 
+    this.populateBadgeCache();
+  }
+
+  private populateBadgeCache(): void {
+    this.http.get<ChannelBadges>(this.ttvChannelUrl)
+      .subscribe(badges => {
+        this.subMap = badges.badge_sets.subscriber.versions;
+      }, err => {
+        console.error(err);
+      });
+  }
+
+  public getBadgeUrl(b: Badge): string {
+    switch (b.id) {
+      case 'moderator':
+        return 'https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1';
+      case 'vip':
+        return 'https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/1';
+      case 'subscriber':
+        return this.subMap[b.version].image_url_1x;
+      default:
+        return null;
+    }
+  }
+
+  public getBadgeUrls(badges: Badge[]): string[] {
+    if (!badges || badges.length === 0) {
+      return [];
+    }
+
+    const bs: string[] = [];
+    badges.forEach(b => {
+      const badge = this.getBadgeUrl(b);
+      if (!badge) {
+        return;
+      }
+      bs.push(badge);
+    });
+    return bs;
   }
 
   public formatCompleteMessage(msg: string, ttvEms: friendEmote[]): string {
