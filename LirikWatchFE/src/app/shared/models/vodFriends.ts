@@ -7,6 +7,16 @@ export interface VodMeta {
   youTubeId?: string;
   games: GameMeta[];
   data: VodData;
+  youTubeVideo?: YouTubeVideo;
+}
+
+export interface YouTubeVideo {
+  id: string;
+  vodId: number;
+  title: string;
+  status: string;
+  views: number;
+  likes: number;
 }
 
 export interface VodData {
@@ -31,7 +41,8 @@ export interface VGame {
 
 const vodMetaToInternal = (meta: VodMeta): VodMetadata => ({
   video: vodMetaToInternalVideo(meta),
-  games: meta.games.map(x => vGameToInternal(x))
+  games: meta.games.map(x => vGameToInternal(x)),
+  yt: meta.youTubeVideo
 });
 
 const vodMetaToInternalVideo = (meta: VodMeta): Video => ({
