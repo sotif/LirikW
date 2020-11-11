@@ -136,6 +136,11 @@
 
           .message_autor {
             font-weight: bold;
+
+            .point {
+              color: white;
+              font-weight: normal;
+            }
           }
 
           .message-content {
@@ -150,6 +155,11 @@
       }
     }
   }
+}
+
+.user-badge {
+  vertical-align: middle;
+  margin-right: 2px;
 }
 
 :host ::ng-deep .message > .message-content > .emote-image {

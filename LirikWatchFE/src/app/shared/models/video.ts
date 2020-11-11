@@ -1,4 +1,5 @@
 import {Game, Video} from './filters';
+import {YouTubeVideo} from './vodFriends';
 
 export interface YtId {
   id: string;
@@ -7,6 +8,7 @@ export interface YtId {
 export interface VodMetadata {
   video: Video;
   games: GamesMeta[];
+  yt?: YouTubeVideo;
 }
 
 export interface GamesMeta {

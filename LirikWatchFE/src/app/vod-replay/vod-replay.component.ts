@@ -248,6 +248,7 @@ export class VodReplayComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // Before pushing edit the emotes into the message
       top.body = this.emoteService.formatCompleteMessage(top.body, top.emotes);
+      top.badgeUrls = this.emoteService.getBadgeUrls(top.badges);
       this.viewChat.push(top);
 
       // Check viewChat size to reduce ram usage and lag

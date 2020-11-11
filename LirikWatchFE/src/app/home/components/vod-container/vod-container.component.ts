@@ -21,6 +21,7 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
   public chapterViewVisible = false;
   public dateString: string;
   public lengthString: string;
+  public viewsString: string;
 
   private chapterViewNative: any;
   private readonly msInDay = 86400000;
@@ -40,6 +41,7 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.dateString = this.getDateString();
     this.lengthString = this.getLengthString();
+    this.viewsString = this.getViewString();
   }
 
   ngAfterViewInit(): void {
@@ -113,5 +115,16 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
     createdOn.setHours(0, 0, 0, 0);
 
     return (today.getTime() - createdOn.getTime()) / this.msInDay;
+  }
+
+  private getViewString(): string {
+    const yt = this.video.yt;
+    if (!yt || !yt.views) {
+      return null;
+    }
+    if (yt.views < 1000) {
+      return `${yt.views.toString()} views`;
+    }
+    return `${Math.floor(yt.views / 1000).toString()}K views`;
   }
 }

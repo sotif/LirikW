@@ -2,13 +2,35 @@
 
 .login-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   display: flex;
   justify-content: center;
   padding-top: 200px;
 
   .content {
+
+    .disclaimer {
+      margin-top: $l-size;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      word-break: break-word;
+      max-width: 850px;
+      padding: 0 $m-size;
+      color: #868686;
+      font-size: 90%;
+      .support-email {
+        text-decoration: none;
+        color: white;
+        margin: 0;
+
+        &:hover:link:visited:active {
+          text-decoration: none;
+          color: white;
+        }
+      }
+    }
     .header {
       text-align: center;
 

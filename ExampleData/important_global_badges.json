@@ -1,0 +1,102 @@
+{
+    "badge_sets": {
+        "admin": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/9ef7e029-4cdf-4d4d-a0d5-e2b3fb2583fe/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/9ef7e029-4cdf-4d4d-a0d5-e2b3fb2583fe/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/9ef7e029-4cdf-4d4d-a0d5-e2b3fb2583fe/3",
+                    "description": "Twitch Admin",
+                    "title": "Admin",
+                    "click_action": "none",
+                    "click_url": "",
+                    "last_updated": null
+                }
+            }
+        },
+        "broadcaster": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                    "description": "Broadcaster",
+                    "title": "Broadcaster",
+                    "click_action": "none",
+                    "click_url": "",
+                    "last_updated": null
+                }
+            }
+        },
+        "global_mod": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/9384c43e-4ce7-4e94-b2a1-b93656896eba/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/9384c43e-4ce7-4e94-b2a1-b93656896eba/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/9384c43e-4ce7-4e94-b2a1-b93656896eba/3",
+                    "description": "Global Moderator",
+                    "title": "Global Moderator",
+                    "click_action": "none",
+                    "click_url": "",
+                    "last_updated": null
+                }
+            }
+        },
+        "moderator": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+                    "description": "Moderator",
+                    "title": "Moderator",
+                    "click_action": "none",
+                    "click_url": "",
+                    "last_updated": null
+                }
+            }
+        },
+        "partner": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+                    "description": "Verified",
+                    "title": "Verified",
+                    "click_action": "visit_url",
+                    "click_url": "https://blog.twitch.tv/the-verified-badge-is-here-13381bc05735",
+                    "last_updated": null
+                }
+            }
+        },
+        "staff": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/d97c37bd-a6f5-4c38-8f57-4e4bef88af34/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/d97c37bd-a6f5-4c38-8f57-4e4bef88af34/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/d97c37bd-a6f5-4c38-8f57-4e4bef88af34/3",
+                    "description": "Twitch Staff",
+                    "title": "Staff",
+                    "click_action": "visit_url",
+                    "click_url": "https://www.twitch.tv/jobs?ref=chat_badge",
+                    "last_updated": null
+                }
+            }
+        },
+        "vip": {
+            "versions": {
+                "1": {
+                    "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/1",
+                    "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/2",
+                    "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3",
+                    "description": "VIP",
+                    "title": "VIP",
+                    "click_action": "visit_url",
+                    "click_url": "https://help.twitch.tv/customer/en/portal/articles/659115-twitch-chat-badges-guide",
+                    "last_updated": null
+                }
+            }
+        }
+    }
+}
