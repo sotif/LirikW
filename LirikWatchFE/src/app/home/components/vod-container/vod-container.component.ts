@@ -94,6 +94,9 @@ export class VodContainerComponent implements OnInit, AfterViewInit {
       return `${Math.floor(hoursDiff).toString()} hours ago`;
     }
     const days = Math.floor(hoursDiff / 24);
+    if (days === 1) {
+      return 'yesterday';
+    }
     if (days < 30) {
       return `${days.toString()} days ago`;
     }
